@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 从零到落地 · 公安科信民警极速学习站</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--border:rgba(255,255,255,.06);--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--blue:#3b82f6;--cyan:#06b6d4;--purple:#8b5cf6;--green:#22c55e;--orange:#f59e0b;--red:#ef4444;--pink:#ec4899}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+a{color:var(--blue);text-decoration:none}
+code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:4px;font-size:.85em;color:var(--cyan);font-family:Consolas,"Courier New",monospace}
+pre{background:rgba(0,0,0,.4);padding:16px;border-radius:10px;overflow-x:auto;font-size:13px;line-height:1.6;margin:12px 0;font-family:Consolas,"Courier New",monospace;color:#a78bfa}
+pre .comment{color:#64748b}pre .cmd{color:#22c55e}pre .output{color:#94a3b8}
+
+/* ── Navigation ── */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:56px}
+.topnav .logo{font-size:18px;font-weight:800;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+.topnav .nav-links{display:flex;gap:4px;overflow-x:auto;flex:1;padding:4px 0}
+.topnav .nav-links a{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;transition:all .2s;cursor:pointer}
+.topnav .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.topnav .nav-links a.active{color:var(--blue);background:rgba(59,130,246,.1)}
+.progress-bar-mini{height:3px;background:rgba(255,255,255,.06);border-radius:2px;width:120px;flex-shrink:0}
+.progress-bar-mini .fill{height:100%;background:var(--green);border-radius:2px;transition:width .5s}
+
+/* ── Layout ── */
+.container{max-width:960px;margin:0 auto;padding:24px}
+.section{display:none;animation:fadeUp .4s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Cards ── */
+.hero{background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(139,92,246,.1));border:1px solid rgba(59,130,246,.15);border-radius:20px;padding:40px 32px;margin-bottom:32px;text-align:center}
+.hero h1{font-size:28px;font-weight:800;margin-bottom:12px;background:linear-gradient(90deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:14px;max-width:600px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;transition:all .2s}
+.card:hover{border-color:rgba(255,255,255,.1)}
+
+/* ── Learning Path ── */
+.path-step{display:flex;gap:16px;margin-bottom:20px;position:relative}
+.path-step::before{content:"";position:absolute;left:19px;top:44px;bottom:-20px;width:2px;background:rgba(255,255,255,.06)}
+.path-step:last-child::before{display:none}
+.step-num{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0;position:relative;z-index:1}
+.step-num.blue{background:rgba(59,130,246,.15);color:var(--blue)}
+.step-num.purple{background:rgba(139,92,246,.15);color:var(--purple)}
+.step-num.green{background:rgba(34,197,94,.15);color:var(--green)}
+.step-num.orange{background:rgba(245,158,11,.15);color:var(--orange)}
+.step-num.red{background:rgba(239,68,68,.15);color:var(--red)}
+.step-num.cyan{background:rgba(6,182,212,.15);color:var(--cyan)}
+.step-num.pink{background:rgba(236,72,153,.15);color:var(--pink)}
+.step-content{flex:1}
+.step-title{font-size:16px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.step-desc{font-size:13px;color:var(--muted);margin-bottom:12px}
+.step-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+.badge-essential{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-important{background:rgba(245,158,11,.15);color:var(--orange)}
+.badge-nice{background:rgba(34,197,94,.15);color:var(--green)}
+
+/* ── Expandable ── */
+.expandable{border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:all .2s}
+.expandable:hover{border-color:rgba(255,255,255,.1)}
+.expand-header{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:600;transition:background .2s}
+.expand-header:hover{background:rgba(255,255,255,.03)}
+.expand-header .icon{font-size:16px;flex-shrink:0}
+.expand-header .arrow{margin-left:auto;transition:transform .2s;color:var(--dim);font-size:12px}
+.expand-header.open .arrow{transform:rotate(90deg)}
+.expand-body{display:none;padding:0 16px 16px;font-size:13px;color:var(--muted);line-height:1.8}
+.expand-body.show{display:block}
+
+/* ── Term Highlight ── */
+.term{color:var(--cyan);font-weight:600;cursor:pointer;border-bottom:1px dashed rgba(6,182,212,.3);transition:all .2s}
+.term:hover{border-bottom-color:var(--cyan);color:#22d3ee;text-shadow:0 0 8px rgba(6,182,212,.3)}
+
+/* ── Modal / 术语弹窗 ── */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:1000;justify-content:center;align-items:flex-start;padding:40px 16px;overflow-y:auto}
+.modal-overlay.active{display:flex}
+.modal-content{background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:20px;max-width:720px;width:100%;padding:32px;position:relative;animation:modalIn .3s ease;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+@keyframes modalIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--muted);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.3)}
+.modal-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
+.modal-brief{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:14px;line-height:1.7;color:var(--text)}
+.modal-section{margin-bottom:16px;padding:14px 18px;background:rgba(255,255,255,.02);border-radius:12px;border:1px solid rgba(255,255,255,.04)}
+.modal-section-title{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:8px}
+.modal-section-text{font-size:13px;line-height:1.9;color:var(--muted)}
+.modal-section-text code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:.85em;color:var(--cyan)}
+.modal-example{margin-bottom:16px;padding:16px 18px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-radius:12px}
+.modal-quote{margin-bottom:16px;padding:16px 18px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:12px;border-left:4px solid var(--orange)}
+.modal-timeline{margin-bottom:16px;padding:16px 18px;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.12);border-radius:12px;border-left:4px solid var(--purple)}
+.modal-related{margin-bottom:8px;padding:12px 18px}
+.modal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.modal-tag{display:inline-block;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.15);cursor:pointer;transition:all .2s}
+.modal-tag:hover{background:rgba(59,130,246,.2);border-color:rgba(59,130,246,.3)}
+
+/* ── Info boxes ── */
+.clickable-node{cursor:pointer;transition:all .2s}
+.clickable-node:hover{transform:scale(1.08);box-shadow:0 0 16px rgba(59,130,246,.3)}
+
+/* ── Map Detail Card (认知地图详情) ── */
+.map-detail{background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:16px;animation:fadeUp .3s ease}
+.map-detail-title{font-size:18px;font-weight:800;margin-bottom:4px}
+.map-detail-sub{color:var(--dim);font-size:12px;margin-bottom:16px}
+.map-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.map-detail-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;font-size:12px;line-height:1.7}
+.map-detail-box strong{color:var(--text);font-size:13px}
+.map-detail-box code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--cyan)}
+.map-visual{background:rgba(0,0,0,.3);border-radius:12px;padding:16px;margin:12px 0;text-align:center;font-size:12px;line-height:1.8;color:var(--muted)}
+.map-visual .hl{color:var(--cyan);font-weight:700}
+.map-visual .hi{color:var(--orange);font-weight:700}
+.map-visual .hr{color:var(--red);font-weight:700}
+.map-visual .hg{color:var(--green);font-weight:700}
+.map-visual .hp{color:var(--purple);font-weight:700}
+.map-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;margin:2px}
+.map-close-btn{width:100%;margin-top:12px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;font-size:12px;transition:all .2s}
+.map-close-btn:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.map-section{margin:12px 0;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px}
+.map-section-head{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text)}
+.map-video-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.15);border-radius:8px;margin-bottom:6px;font-size:12px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text)}
+.map-video-item:hover{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3)}
+.map-video-item .vi-icon{font-size:16px;flex-shrink:0}
+.map-video-item .vi-title{flex:1;font-weight:600}
+.map-video-item .vi-tag{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,.15);color:var(--red);font-weight:700}
+.map-step-list{counter-reset:step;list-style:none;padding:0}
+.map-step-item{counter-increment:step;display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px;line-height:1.7;color:var(--muted)}
+.map-step-item::before{content:counter(step);display:flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;background:rgba(59,130,246,.15);color:var(--blue);font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px}
+.map-cmd{background:rgba(0,0,0,.4);padding:10px 14px;border-radius:8px;font-size:11px;font-family:Consolas,"Courier New",monospace;line-height:1.8;color:#a78bfa;margin:8px 0;overflow-x:auto}
+.map-cmd .c{color:#64748b}.map-cmd .k{color:#22c55e}.map-cmd .o{color:#94a3b8}
+.map-tip{padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.7;margin:8px 0}
+.map-tip-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.12);color:var(--orange)}
+.map-tip-ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.12);color:var(--green)}
+.map-tip-info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.12);color:var(--blue)}
+.map-kbd{display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:10px;font-family:Consolas,monospace;color:var(--cyan)}
+
+.info-box{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.7}
+.warn-box{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15);border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.7}
+.danger-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.7}
+.success-box{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.7}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{box-shadow:0 4px 16px rgba(59,130,246,.4)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{box-shadow:0 4px 16px rgba(34,197,94,.4)}
+.btn-ghost{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border)}.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-sm{padding:5px 12px;font-size:11px;border-radius:6px}
+
+/* ── Checklist ── */
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:13px;cursor:pointer}
+.check-item:hover{background:rgba(255,255,255,.02)}
+.check-box{width:18px;height:18px;border:2px solid #475569;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.check-box.checked{background:var(--green);border-color:var(--green)}
+.check-box.checked::after{content:"";width:5px;height:9px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg);margin-bottom:2px}
+.check-text.done{color:#475569;text-decoration:line-through}
+
+/* ── Table ── */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+th{text-align:left;padding:8px 10px;background:rgba(255,255,255,.04);color:var(--muted);font-weight:600;border-bottom:1px solid rgba(255,255,255,.08)}
+td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04)}
+
+/* ── Flow diagram ── */
+.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0;padding:16px;background:rgba(0,0,0,.2);border-radius:12px}
+.flow-node{text-align:center;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;min-width:80px;font-size:12px;font-weight:600;cursor:default}
+.flow-node .fi{font-size:20px;margin-bottom:4px}
+.flow-arrow{color:var(--dim);font-size:16px}
+
+/* ── Toast ── */
+.toast-wrap{position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.4);animation:slideIn .3s ease}
+.toast-success{background:rgba(34,197,94,.9);color:#fff}
+.toast-info{background:rgba(59,130,246,.9);color:#fff}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── Responsive ── */
+@media(max-width:768px){.container{padding:16px}.hero{padding:24px 16px}.hero h1{font-size:22px}.topnav .nav-links{display:none}}
+</style>
+</head>
+<body>
+<script>
+function goSection(id){
+  var all=document.getElementsByTagName('div'),i,tgt=document.getElementById('sec-'+id);
+  for(i=0;i<all.length;i++){if(all[i].className)all[i].className=all[i].className.replace(/(^|\s)active(\s|$)/g,' ');}
+  if(tgt)tgt.className=tgt.className+' active';
+  var nav=document.getElementById('navLinks');
+  if(nav){var a=nav.getElementsByTagName('a');for(i=0;i<a.length;i++){a[i].className=a[i].className.replace(/(^|\s)active(\s|$)/g,' ');}
+  var m={home:0,ch1:1,ch2:2,ch3:3,ch4:4,ch5:5,ch6:6,ch7:7,ch8:8};if(m[id]!==undefined&&a[m[id]])a[m[id]].className=a[m[id]].className+' active';}
+  window.scrollTo(0,0);
+}
+function toggleExpand(h){if(h.classList){h.classList.toggle('open');}var b=h.nextElementSibling;if(b&&b.classList)b.classList.toggle('show');}
+function toggleCheck(item){var box=item.querySelector('.check-box');var text=item.querySelector('.check-text');if(box&&box.classList)box.classList.toggle('checked');if(text&&text.classList)text.classList.toggle('done');}
+function closeTermModal(){var m=document.getElementById('termModal');if(m&&m.classList)m.classList.remove('active');document.body.style.overflow='';}
+
+// ===== 认知地图节点详情 =====
+var MAP_DATA={
+'cherry':{
+  icon:'💬',title:'Cherry Studio',sub:'大模型对话前端',color:'#3b82f6',
+  html:'<div class="map-visual">你（浏览器）<br>⬇️ 输入问题<br><span class="hl">Cherry Studio</span>（转发请求）<br>⬇️ API调用<br>🧠 大模型服务器（生成回答）<br>⬆️ 返回答案<br><span class="hl">Cherry Studio</span>（显示给你）</div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1z79YBtEj9" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">MCP+Cherry Studio+Ollama 全流程搭建</span><span class="vi-tag">B站热门</span></a>'
+  +'<a class="map-video-item" href="https://docs.cherry-ai.com/cherry-studio/installation" target="_blank"><span class="vi-icon">📖</span><span class="vi-title">官方安装文档（图文版）</span><span class="vi-tag">官方</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 5分钟上手步骤</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">下载安装包 → 访问 <span class="map-kbd">cherry-ai.com</span>，点"下载客户端"，选 Windows 版</div>'
+  +'<div class="map-step-item">双击安装 → 建议装到D盘（不在C盘即可），一路"下一步"</div>'
+  +'<div class="map-step-item">打开软件 → 点左下角 ⚙️ 设置 → 进入"模型服务"</div>'
+  +'<div class="map-step-item">点"添加模型供应商" → 选 <span class="map-kbd">OpenAI API 兼容</span></div>'
+  +'<div class="map-step-item">填入工程师给你的信息：API地址 + API Key → 点"管理模型"添加模型名</div>'
+  +'<div class="map-step-item">回到对话页 → 下拉选模型 → 输入问题 → 开始聊天 ✅</div>'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 关键配置（找工程师要这3项）</div>'
+  +'<div class="map-cmd"><span class="c"># 你需要找工程师要的信息 ↓</span><br>API地址: <span class="k">http://10.0.1.100:8000/v1</span>  <span class="c">← 内网模型服务地址</span><br>API Key:  <span class="k">sk-xxxxxxxx</span>  <span class="c">← 认证密钥</span><br>模型名称: <span class="k">qwen2.5-7b-instruct</span>  <span class="c">← 对话模型</span></div>'
+  +'</div>'
+  +'<div class="map-tip map-tip-warn">⚠️ 安装前先确认：市局电脑白名单是否允许安装Cherry Studio！会议原话："你把那个名字发给我，我来判断一下"——找信息中心确认。</div>'
+  +'<div class="map-tip map-tip-ok">💡 小技巧：Cherry Studio支持同时配多个模型供应商。内网通义千问+外网DeepSeek都配上，方便对比回答效果。数据走内网不外泄。</div>'
+},
+'dify':{
+  icon:'🔧',title:'Dify',sub:'智能体开发平台（你的核心工作台）',color:'#8b5cf6',
+  html:'<div class="map-visual"><span class="hp">Dify</span> = 你的核心工作台<br><br>📁 知识库管理 ──→ 上传文档/自动切片/向量化<br>🤖 智能体配置 ──→ 选模型+写提示词+挂工具<br>🔄 工作流编排 ──→ 拖拽节点串流程<br>🚀 应用发布 ──→ 生成链接给别人用</div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1orM3zYEwi" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">2025吃透Dify零基础入门到精通（全流程实战）</span><span class="vi-tag">强烈推荐</span></a>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1oy15BmE3U" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">Dify入门到精通：从部署到工作流开发</span><span class="vi-tag">B站热门</span></a>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1KJ2DBvERU" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">零基础1小时上手Dify：安装到搭建AI应用</span><span class="vi-tag">快速入门</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 创建知识库（你最先要学的）</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">浏览器打开Dify → <span class="map-kbd">http://你的服务器IP</span> → 登录</div>'
+  +'<div class="map-step-item">左侧菜单点"知识库" → "创建知识库" → 取个名字</div>'
+  +'<div class="map-step-item">上传文档（PDF/Word/TXT都行）→ 选"自动切片"</div>'
+  +'<div class="map-step-item">选Embedding模型 → 等待向量化完成（几分钟）</div>'
+  +'<div class="map-step-item">测试：点"召回测试"，输入问题看能否搜到相关段落</div>'
+  +'</div>'
+  +'<div class="map-cmd"><span class="c"># 关键：切片质量决定效果</span><br>推荐分段长度: <span class="k">500-1000字</span><br>分段重叠: <span class="k">50-100字</span>  <span class="c">← 避免切断语义</span><br>索引方式: <span class="k">高质量</span>（用Embedding模型）</div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 创建智能体（核心操作）</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">左侧菜单点"工作室" → "创建应用" → 选"聊天助手"或"Agent"</div>'
+  +'<div class="map-step-item">填写提示词（系统指令）→ 告诉AI它的角色和行为规则</div>'
+  +'<div class="map-step-item">点"关联知识库" → 选择刚建的知识库</div>'
+  +'<div class="map-step-item">选模型 → 建议先用 <span class="map-kbd">qwen2.5-7b</span> 测试，效果不够再换72B</div>'
+  +'<div class="map-step-item">点"调试" → 输入测试问题 → 看回答是否引用了知识库内容</div>'
+  +'<div class="map-step-item">满意后点"发布" → 生成链接，发给同事就能用</div>'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 提示词模板（卷宗查错为例）</div>'
+  +'<div class="map-cmd">你是公安卷宗审核助手。请按照以下规则检查卷宗：<br><br>1. 检查所有文书日期是否逻辑一致<br>   （传唤时间 ≤ 拘留时间 ≤ 逮捕时间）<br>2. 检查嫌疑人姓名在各文书中是否一致<br>3. 检查强制措施期限是否超期<br>4. 检查处罚种类是否与违法事实匹配<br><br>输出格式：<br>- 问题描述 | 涉及文书 | 修改建议 | 法律依据</div>'
+  +'</div>'
+  +'<div class="map-tip map-tip-info">💡 百千万平台 = Dify二次开发版，多了一个应用市场。你做的智能体可以发布到市场让其他部门复用。</div>'
+  +'<div class="map-tip map-tip-warn">⚠️ 切片是影响效果的最大因素！会议原话："切片实际上就是切片，你不要把它切断了，法律第一条都没说完就切了，召回的知识是碎片的。"</div>'
+},
+'agent':{
+  icon:'🤖',title:'智能体（Agent）',sub:'不只是聊天，能完成任务',color:'#ec4899',
+  html:'<div class="map-visual">智能体 = <span class="hl">大模型</span>(大脑) + <span class="hg">知识库</span>(记忆) + <span class="hi">工具</span>(手脚) + <span class="hp">提示词</span>(行为准则)<br><br>用户提问 → Agent思考 → 查知识库 → 调工具 → 生成回答<br><br>三代进化：<br>①<code>工作流</code> 固定流水线 → ②<code>Skill</code> 按需选工具 → ③<code>超级智能体</code> 自主规划</div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1orM3zYEwi" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">Dify教程：创建Agent智能助手（第4集）</span><span class="vi-tag">实操</span></a>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1oy15BmE3U" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">Dify工作流开发全过程（第13集）</span><span class="vi-tag">工作流</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 创建Agent的5步法</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">明确目标：这个Agent要做什么？给谁用？输入输出是什么？</div>'
+  +'<div class="map-step-item">写提示词：定义Agent的角色、能力边界、输出格式（这是你最重要的工作）</div>'
+  +'<div class="map-step-item">关联知识库：让它有"记忆"，能查到专业资料而不是胡编</div>'
+  +'<div class="map-step-item">添加工具：如需调用外部API（查询法规、OCR识别），在"工具"里配置</div>'
+  +'<div class="map-step-item">迭代测试：反复调试提示词，直到回答质量和格式达标</div>'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🖼️ 三代智能体对比</div>'
+  +'<div style="overflow-x:auto"><table style="width:100%;font-size:11px"><tr><th>维度</th><th>①工作流Agent</th><th>②Skill Agent</th><th>③超级Agent</th></tr>'
+  +'<tr><td>工作方式</td><td>固定步骤，像流水线</td><td>按需选工具，像工具箱</td><td>自主规划，像实习生</td></tr>'
+  +'<tr><td>灵活性</td><td>低，只能做预设的事</td><td>中，可应对不同场景</td><td>高，自动规划步骤</td></tr>'
+  +'<tr><td>可控性</td><td>高，每步可见</td><td>中，需设计好接口</td><td>低，可能走歪路</td></tr>'
+  +'<tr><td>推荐阶段</td><td>✅ 先用这个跑通</td><td>进阶时再升级</td><td>未来方向</td></tr></table></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">🌟 公安实战案例：卷宗查错Agent</div>'
+  +'<div style="font-size:12px;line-height:1.8;color:var(--muted)">'
+  +'输入：扫描卷宗(PDF) → OCR识别 → 文本切片<br>'
+  +'Agent处理：查法规库 → 比日期逻辑 → 检查姓名一致性 → 验证期限<br>'
+  +'输出：问题清单（问题描述 | 涉及文书 | 修改建议 | 法律依据）<br><br>'
+  +'<strong style="color:var(--text)">你要做的</strong>：定义检查规则（提示词）+ 维护法规知识库 + 迭代优化效果'
+  +'</div></div>'
+  +'<div class="map-tip map-tip-ok">💡 会议原话："真正执行的时候，还是写Skill，用Skill的方式去解决，这是目前比较好的落地形式。"——先工作流跑通，再升级Skill。</div>'
+},
+'llm':{
+  icon:'🧠',title:'大模型（LLM）',sub:'读了全网资料训练出的AI大脑',color:'#06b6d4',
+  html:'<div class="map-visual">训练过程：<br>海量文本（万亿字）→ <span class="hp">预训练</span> → 学会语言规律 → <span class="hl">大模型</span><br><br>核心能力：预测"下一个词"<br>参数越多越聪明，但也越贵：<br><span class="map-tag" style="background:rgba(34,197,94,.15);color:#22c55e">7B 单卡可跑</span> <span class="map-tag" style="background:rgba(239,68,68,.15);color:#ef4444">72B 需4张GPU</span></div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1Sr5K6zEQF" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">大模型高效部署：VLLM与Ollama实战</span><span class="vi-tag">部署</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 你需要了解的模型参数</div>'
+  +'<div style="overflow-x:auto"><table style="width:100%;font-size:11px"><tr><th>参数</th><th>作用</th><th>你的场景</th></tr>'
+  +'<tr><td><code>temperature</code></td><td>0=严谨固定，1=自由发挥</td><td>卷宗查错用 <strong>0.1-0.3</strong>（要准不要创意）</td></tr>'
+  +'<tr><td><code>max_tokens</code></td><td>回答最长多少字</td><td>建议 <strong>2048</strong>，避免回答太长</td></tr>'
+  +'<tr><td><code>top_p</code></td><td>控制选词范围</td><td>建议 <strong>0.85</strong>，配合temperature</td></tr>'
+  +'<tr><td><code>上下文窗口</code></td><td>模型能"记住"多长</td><td>128K≈10万字，卷宗别超这个</td></tr></table></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 如何判断模型效果好不好</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">准备5-10个典型问题（卷宗中常见的）+ 标准答案</div>'
+  +'<div class="map-step-item">用Cherry Studio逐个测试，记录回答质量</div>'
+  +'<div class="map-step-item">重点检查：是否编造了不存在的法条？是否漏掉了关键问题？</div>'
+  +'<div class="map-step-item">7B不够就换72B，但72B推理更慢、更贵</div>'
+  +'</div></div>'
+  +'<div class="map-tip map-tip-warn">⚠️ 幻觉是大模型最大缺陷！它本质是"预测下一个词"，不是查资料回答。所以必须配RAG，让它先查知识库再回答。公安场景下幻觉极危险！</div>'
+  +'<div class="map-tip map-tip-info">💡 国产常用对比：通义千问(Qwen)你们在用 | DeepSeek推理强 | ChatGLM轻量可消费级GPU。都是基于Transformer架构。</div>'
+},
+'embedding':{
+  icon:'🔢',title:'Embedding（向量化）',sub:'把文字变成数字，让计算机懂"意思"',color:'#8b5cf6',
+  html:'<div class="map-visual">文字 → <span class="hp">Embedding模型</span> → 数字向量<br><br>"盗窃" → [0.8, 0.2, 0.1]<br>"偷窃" → [0.75, 0.25, 0.15] <span class="hg">← 距离近=意思像</span><br>"天气" → [0.1, -0.8, 0.3] <span class="hr">← 距离远=不相关</span></div>'
+  +'<div class="map-section"><div class="map-section-head">📋 Embedding在系统中的两次调用</div>'
+  +'<div style="font-size:12px;line-height:2;color:var(--muted)">'
+  +'<strong style="color:var(--hg)">入库时（你上传文档时自动发生）：</strong><br>'
+  +'文档 → 切片 → 每个切片 → Embedding模型 → 变成向量 → 存入向量数据库<br><br>'
+  +'<strong style="color:var(--hl)">检索时（用户提问时自动发生）：</strong><br>'
+  +'用户问题 → Embedding模型 → 变成向量 → 在向量数据库中找最近的 → 返回相似文档'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 你需要选的Embedding模型</div>'
+  +'<div style="overflow-x:auto"><table style="width:100%;font-size:11px"><tr><th>模型</th><th>特点</th><th>推荐场景</th></tr>'
+  +'<tr><td><code>bge-large-zh</code></td><td>中文效果最好</td><td>✅ 你们的首选</td></tr>'
+  +'<tr><td><code>bge-m3</code></td><td>多语言，支持8K长度</td><td>文档很长时用</td></tr>'
+  +'<tr><td><code>text2vec</code></td><td>轻量，速度快</td><td>快速验证原型</td></tr></table></div>'
+  +'</div>'
+  +'<div class="map-tip map-tip-info">💡 在Dify里选Embedding模型：知识库创建时有个下拉框，选中文效果好的模型即可。这个不需要你深入理解数学原理，选对模型就行。</div>'
+  +'<div class="map-tip map-tip-ok">💡 关键理解：Embedding就是让"意思相近的文字在数字空间里距离近"，这样搜"办案要多久"就能找到"办案期限30日"——不靠关键词匹配，靠语义理解。</div>'
+},
+'vecdb':{
+  icon:'📚',title:'向量数据库',sub:'按"意思相近"搜索的数据库',color:'#22c55e',
+  html:'<div class="map-visual">传统搜索（MySQL）：<br>搜"办案期限" → 只能匹配含这3个字的记录<br><br><span class="hg">向量搜索</span>：<br>搜"办案要多久" → 找到含"期限""时限"的记录<br><span class="hg">意思相近就能找到！</span></div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV16kdzBpEDy" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">B站最全RAG知识库搭建零基础到实战</span><span class="vi-tag">强烈推荐</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 三种方案对比与选择</div>'
+  +'<div style="overflow-x:auto"><table style="width:100%;font-size:11px"><tr><th>方案</th><th>复杂度</th><th>适用规模</th><th>你们的情况</th></tr>'
+  +'<tr><td><code>pgvector</code></td><td>⭐ 最简单</td><td>10万条以内</td><td>✅ 先用这个！PostgreSQL加个插件就行</td></tr>'
+  +'<tr><td><code>Chroma</code></td><td>⭐⭐ 简单</td><td>10万条以内</td><td>快速验证可用</td></tr>'
+  +'<tr><td><code>Milvus</code></td><td>⭐⭐⭐ 复杂</td><td>百万级以上</td><td>量大了再换</td></tr></table></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 在Dify中配置向量数据库</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">Dify部署时，docker-compose里已配好向量数据库（默认Weaviate/Milvus）</div>'
+  +'<div class="map-step-item">创建知识库时，Dify自动调用Embedding模型+向量数据库，你不用手动操作</div>'
+  +'<div class="map-step-item">你只需关心：知识库创建后"召回测试"能否搜到正确结果</div>'
+  +'<div class="map-step-item">如果搜不准 → 调整切片策略（改分段长度/重叠）→ 重建知识库</div>'
+  +'</div></div>'
+  +'<div class="map-tip map-tip-info">💡 会议原话："建立知识库的方法，成本最低的还是走向量"——向量数据库是你们知识库的底层引擎，但日常你不需要直接操作它，Dify帮你管。</div>'
+},
+'ocr':{
+  icon:'📄',title:'OCR引擎',sub:'扫描件→可编辑文字',color:'#06b6d4',
+  html:'<div class="map-visual">扫描卷宗(PDF/图片)<br>⬇️<br><span class="hl">OCR引擎</span> 识别文字<br>⬇️<br>可编辑的电子文本<br>⬇️<br>进入知识库流程（切片→向量化→入库）</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 OCR在卷宗处理中的完整流程</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">收集纸质卷宗 → 扫描成PDF/图片（高分辨率，300DPI以上）</div>'
+  +'<div class="map-step-item">上传到系统 → OCR引擎自动识别文字</div>'
+  +'<div class="map-step-item">人工抽查 → 对照原文看识别是否准确（尤其姓名、金额、日期）</div>'
+  +'<div class="map-step-item">确认无误 → 进入Dify知识库流程</div>'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 推荐方案：PaddleOCR</div>'
+  +'<div style="font-size:12px;line-height:1.8;color:var(--muted)">'
+  +'<strong style="color:var(--text)">为什么选PaddleOCR：</strong><br>'
+  +'• 百度开源，中文识别效果最好<br>'
+  +'• 免费本地部署，数据不出网<br>'
+  +'• 支持表格识别（卷宗中大量表格）<br>'
+  +'• 3.x版本新增文档预处理、公式识别<br><br>'
+  +'<strong style="color:var(--text)">部署方式：</strong>由工程师用Docker部署，你只需提供测试卷宗验证效果'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">📋 你要验证的关键点</div>'
+  +'<div class="map-cmd"><span class="c"># 拿5份不同类型卷宗做测试</span><br>1. 识别率是否 &gt; 95%？  <span class="c">← 关键数字</span><br>2. 姓名是否识别正确？  <span class="c">← 人名易错</span><br>3. 日期格式是否统一？  <span class="c">← 2024.1.1 vs 2024年1月1日</span><br>4. 表格内容是否结构化？  <span class="c">← 表格是难点</span><br>5. 印章遮挡区域能否识别？  <span class="c">← 常见问题</span></div>'
+  +'</div>'
+  +'<div class="map-tip map-tip-warn">⚠️ OCR是整个系统的第一步！如果OCR识别错了，后面所有AI分析都建立在错误数据上。必须花时间验证识别质量。</div>'
+  +'<div class="map-tip map-tip-ok">💡 卷宗扫描建议：300DPI以上、避免倾斜/模糊、彩色扫描比黑白效果好。扫描质量直接决定OCR效果。</div>'
+},
+'pg':{
+  icon:'💾',title:'PostgreSQL',sub:'最强大的开源关系数据库',color:'#3b82f6',
+  html:'<div class="map-visual"><span class="hl">PostgreSQL</span> 在系统中的角色：<br><br>① 存储Dify的配置、用户、对话记录<br>② + <code>pgvector</code>扩展 → 兼做向量数据库<br><br>一个库搞定关系数据+向量搜索！</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 PostgreSQL + pgvector = 最简方案</div>'
+  +'<div style="font-size:12px;line-height:1.8;color:var(--muted)">'
+  +'<strong style="color:var(--text)">为什么推荐pgvector：</strong><br>'
+  +'• 不用单独部署Milvus/Chroma，PostgreSQL加个插件就能存向量<br>'
+  +'• 运维简单：一个数据库管两种数据<br>'
+  +'• Dify原生支持pgvector作为向量存储<br>'
+  +'• 缺点：数据量超过100万条时性能不如Milvus'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 你可能会用到的命令</div>'
+  +'<div class="map-cmd"><span class="c"># 查看数据库状态</span><br><span class="k">docker exec -it postgres psql -U postgres</span>  <span class="c">← 进入数据库</span><br><br><span class="c"># 查看所有数据库</span><br><span class="k">\l</span><br><br><span class="c"># 查看Dify的表</span><br><span class="k">\c dify</span><br><span class="k">\dt</span><br><br><span class="c"># 退出</span><br><span class="k">\q</span></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 数据库备份（非常重要！）</div>'
+  +'<div class="map-cmd"><span class="c"># 导出备份（让工程师教你做一次）</span><br><span class="k">docker exec postgres pg_dump -U postgres dify &gt; backup.sql</span><br><br><span class="c"># 恢复备份</span><br><span class="k">cat backup.sql | docker exec -i postgres psql -U postgres dify</span></div>'
+  +'</div>'
+  +'<div class="map-tip map-tip-warn">⚠️ 数据库是所有数据的家！必须定期备份。会议说"如果GPU服务器要换，文档要拷出来"——应用服务器上的数据库更要备份！</div>'
+},
+'server':{
+  icon:'🖥️',title:'应用服务器',sub:'Ubuntu x86 · 跑所有应用',color:'#f59e0b',
+  html:'<div class="map-visual">应用服务器（Ubuntu x86）<br>├── <span class="hl">Docker</span>（容器管理）<br>│   ├── Dify（智能体平台）<br>│   ├── 向量数据库<br>│   └── PostgreSQL<br>├── Nginx（网页服务）<br>└── 其他工具<br><br>你通过 <code>SSH</code> 远程操作这台机器</div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1Kg411D78F" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">Docker一小时精讲（B站经典）</span><span class="vi-tag">入门</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 SSH远程登录（你最先要学的）</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item">Windows按 <span class="map-kbd">Win+R</span> → 输入 <span class="map-kbd">cmd</span> → 回车</div>'
+  +'<div class="map-step-item">输入 <span class="map-kbd">ssh admin@10.0.1.100</span> → 回车</div>'
+  +'<div class="map-step-item">输入密码（屏幕不显示，直接输完回车）</div>'
+  +'<div class="map-step-item">看到 <span class="map-kbd">admin@app-server:~$</span> 就成功了</div>'
+  +'</div></div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 日常运维必会命令</div>'
+  +'<div class="map-cmd"><span class="c"># ===== 查看系统状态 =====</span><br><span class="k">docker ps</span>  <span class="c"># 查看所有容器是否在跑</span><br><span class="k">docker ps -a</span>  <span class="c"># 包括已停止的容器</span><br><span class="k">free -h</span>  <span class="c"># 内存还剩多少</span><br><span class="k">df -h</span>  <span class="c"># 硬盘还剩多少</span><br><br><span class="c"># ===== 排错专用 =====</span><br><span class="k">docker logs dify-api</span>  <span class="c"># 看Dify日志（最后50行）</span><br><span class="k">docker logs --tail 200 dify-api</span>  <span class="c"># 看最近200行</span><br><br><span class="c"># ===== 重启服务 =====</span><br><span class="k">docker restart dify-api</span>  <span class="c"># 重启某个容器</span><br><span class="k">cd /path/to/dify && docker-compose restart</span>  <span class="c"># 重启整个系统</span></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 服务挂了怎么办</div>'
+  +'<div class="map-step-list">'
+  +'<div class="map-step-item"><span class="map-kbd">docker ps</span> 看哪个容器状态不是"Up"</div>'
+  +'<div class="map-step-item"><span class="map-kbd">docker logs 容器名</span> 看错误日志</div>'
+  +'<div class="map-step-item">先试 <span class="map-kbd">docker restart 容器名</span></div>'
+  +'<div class="map-step-item">不行就联系工程师，把日志截图发过去</div>'
+  +'</div></div>'
+  +'<div class="map-tip map-tip-warn">⚠️ 服务器上不要执行 <span class="map-kbd">rm -rf</span> 开头的任何命令！这是删除操作，可能导致不可恢复的数据丢失。</div>'
+},
+'gpu':{
+  icon:'🎮',title:'GPU服务器',sub:'跑大模型的专用硬件',color:'#f59e0b',
+  html:'<div class="map-visual">GPU服务器<br>├── <span class="hr">GPU</span>（显卡，大模型必须）<br>│   ├── A100 / RTX 4090<br>│   └── <code>CUDA</code> 驱动<br>├── <span class="hl">模型推理服务</span><br>│   ├── vLLM / Ollama<br>│   └── 通义千问模型文件<br>└── 被应用服务器远程调用</div>'
+  +'<div class="map-section"><div class="map-section-head">🎬 推荐入门视频</div>'
+  +'<a class="map-video-item" href="https://www.bilibili.com/video/BV1Sr5K6zEQF" target="_blank"><span class="vi-icon">📺</span><span class="vi-title">大模型部署：VLLM与Ollama实战指南</span><span class="vi-tag">部署</span></a>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 检查GPU状态的命令</div>'
+  +'<div class="map-cmd"><span class="c"># 最重要的一条命令 ↓</span><br><span class="k">nvidia-smi</span><br><br><span class="c"># 你要看的关键信息：</span><br>GPU-SMI:    <span class="c"># 显卡型号（A100/4090等）</span><br>Memory-Usage: <span class="k">1234MiB / 24576MiB</span>  <span class="c"># 显存使用率</span><br>GPU-Util:    <span class="k">45%</span>  <span class="c"># GPU计算利用率</span><br><br><span class="c"># 每2秒刷新一次</span><br><span class="k">watch -n 2 nvidia-smi</span>  <span class="c"># 按Ctrl+C退出</span></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">🔑 显卡与模型对应关系</div>'
+  +'<div style="overflow-x:auto"><table style="width:100%;font-size:11px"><tr><th>模型大小</th><th>量化方式</th><th>最低显存</th><th>显卡选择</th></tr>'
+  +'<tr><td>7B（70亿参数）</td><td>GPTQ 4bit</td><td>~4GB</td><td>✅ 单张RTX 4090(24GB)绰绰有余</td></tr>'
+  +'<tr><td>7B（70亿参数）</td><td>全量 FP16</td><td>~14GB</td><td>✅ 单张RTX 4090</td></tr>'
+  +'<tr><td>72B（720亿参数）</td><td>GPTQ 4bit</td><td>~40GB</td><td>需要2张A100(80GB)</td></tr>'
+  +'<tr><td>72B（720亿参数）</td><td>全量 FP16</td><td>~140GB</td><td>需要4张A100(80GB)</td></tr></table></div>'
+  +'</div>'
+  +'<div class="map-section"><div class="map-section-head">📋 模型推理服务：vLLM vs Ollama</div>'
+  +'<div style="overflow-x:auto"><table style="width:100%;font-size:11px"><tr><th>维度</th><th>vLLM</th><th>Ollama</th></tr>'
+  +'<tr><td>定位</td><td>生产级高并发推理</td><td>个人/小团队快速上手</td></tr>'
+  +'<tr><td>性能</td><td>极高（PagedAttention优化）</td><td>中等</td></tr>'
+  +'<tr><td>操作难度</td><td>较高</td><td>极低（一条命令启动）</td></tr>'
+  +'<tr><td>适合你们</td><td>✅ 正式部署用这个</td><td>测试/验证时用</td></tr></table></div>'
+  +'</div>'
+  +'<div class="map-tip map-tip-info">💡 会议确认你们的应用服务器是x86架构Ubuntu，不是ARM信创环境。所以Docker镜像和CUDA驱动都能正常使用，这是个好消息。</div>'
+  +'<div class="map-tip map-tip-warn">⚠️ GPU服务器很贵！确保不用时也不随意关机——模型加载到显存需要5-10分钟。但如果长时间不用（周末/节假日），可以跟工程师确认是否需要关机省资源。</div>'
+}
+};
+
+function openMapDetail(key){
+  var d=MAP_DATA[key];
+  if(!d)return;
+  var el=document.getElementById('mapDetailSpot');
+  if(!el)return;
+  el.innerHTML='<div class="map-detail" style="border-left:4px solid '+d.color+'">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
+    +'<div><span style="font-size:24px">'+d.icon+'</span> <span class="map-detail-title">'+d.title+'</span></div>'
+    +'</div>'
+    +'<div class="map-detail-sub">'+d.sub+'</div>'
+    +d.html
+    +'<button class="map-close-btn" onclick="closeMapDetail()">收起详情</button>'
+    +'</div>';
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function closeMapDetail(){
+  var el=document.getElementById('mapDetailSpot');
+  if(el)el.innerHTML='';
+}
+</script>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<!-- 术语详情弹窗 -->
+<div class="modal-overlay" id="termModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeTermModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+    <div class="logo">🚀 AI 从零到落地</div>
+    <div class="nav-links" id="navLinks">
+        <a class="active" onclick="goSection('home')">首页</a>
+        <a onclick="goSection('ch1')">1.认知地图</a>
+        <a onclick="goSection('ch2')">2.AI前世今生</a>
+        <a onclick="goSection('ch3')">3.核心名词</a>
+        <a onclick="goSection('ch4')">4.开发入门</a>
+        <a onclick="goSection('ch5')">5.大模型部署</a>
+        <a onclick="goSection('ch6')">6.智能体开发</a>
+        <a onclick="goSection('ch7')">7.你的实战任务</a>
+        <a onclick="goSection('ch8')">8.速查手册</a>
+    </div>
+    <div class="progress-bar-mini"><div class="fill" id="miniProgress" style="width:0%"></div></div>
+</nav>
+
+<!-- ==================== SECTION: HOME ==================== -->
+<div class="container section active" id="sec-home">
+<div class="hero">
+    <h1>AI 从零到落地 · 极速学习站</h1>
+    <p>专为你设计：科信大队新民警 · 计算机本科应届 · 零开发经验<br>2-3 天内听懂所有名词 + 掌握基本开发技能 + 完成领导交代的任务</p>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom:16px;font-size:15px;">🗺️ 你的学习路线图（按认知顺序排列）</h3>
+    
+    <div class="path-step">
+        <div class="step-num blue">1</div>
+        <div class="step-content">
+            <div class="step-title">认知地图 <span class="step-badge badge-essential">必读</span></div>
+            <div class="step-desc">先看全貌，知道你要学的东西在哪个位置、互相什么关系</div>
+            <button class="btn btn-blue btn-sm" onclick="goSection('ch1')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num purple">2</div>
+        <div class="step-content">
+            <div class="step-title">AI 前世今生 <span class="step-badge badge-important">重要</span></div>
+            <div class="step-desc">从图灵到ChatGPT，理解AI是怎么一步步走到今天的</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch2')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num cyan">3</div>
+        <div class="step-content">
+            <div class="step-title">核心名词渐进式解读 <span class="step-badge badge-essential">必读</span></div>
+            <div class="step-desc">大模型、向量数据库、RAG、Dify、Skill… 按依赖关系一个一个来</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch3')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num green">4</div>
+        <div class="step-content">
+            <div class="step-title">开发入门：从打开终端开始 <span class="step-badge badge-essential">必读</span></div>
+            <div class="step-desc">本地电脑 vs 服务器、SSH 远程登录、Linux 基础命令、Docker 入门</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch4')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num orange">5</div>
+        <div class="step-content">
+            <div class="step-title">大模型部署实战 <span class="step-badge badge-important">重要</span></div>
+            <div class="step-desc">内网环境怎么把模型跑起来？GPU服务器怎么用？Cherry Studio 怎么连？</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch5')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num red">6</div>
+        <div class="step-content">
+            <div class="step-title">智能体开发：从工作流到超级智能体 <span class="step-badge badge-essential">必读</span></div>
+            <div class="step-desc">Dify 是什么？工作流智能体 vs Skill 智能体？百千万平台？</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch6')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num pink">7</div>
+        <div class="step-content">
+            <div class="step-title">你的实战任务 <span class="step-badge badge-essential">必读</span></div>
+            <div class="step-desc">会议里定下来的事：卷宗查错 + 知识库建设 + 工程师对接，具体怎么做</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch7')">开始学习 →</button>
+        </div>
+    </div>
+    <div class="path-step">
+        <div class="step-num blue">8</div>
+        <div class="step-content">
+            <div class="step-title">速查手册 <span class="step-badge badge-nice">工具</span></div>
+            <div class="step-desc">50+ 词汇 A-Z 速查，随时翻阅</div>
+            <button class="btn btn-ghost btn-sm" onclick="goSection('ch8')">开始学习 →</button>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="text-align:center">
+    <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">预计学习时间：每个章节 30-60 分钟，总计 4-6 小时<br>建议顺序学习，不要跳章</p>
+    <button class="btn btn-blue" onclick="goSection('ch1')">🚀 从第1章开始</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH1 认知地图 ==================== -->
+<div class="container section" id="sec-ch1">
+<h2 style="margin-bottom:8px">🗺️ 第一章：认知地图</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">先看全貌，再走细节。这张图告诉你所有东西的位置和关系。</p>
+
+<div class="card">
+<h3 style="font-size:14px;margin-bottom:16px;color:var(--blue)">🏛️ AI 系统全景图 —— 你要做的系统长这样</h3>
+<p style="color:var(--dim);font-size:11px;margin-bottom:12px">💡 点击任意蓝色边框节点可查看详细讲解</p>
+<div class="flow" style="flex-direction:column;align-items:stretch;gap:4px;background:rgba(0,0,0,.3)">
+    <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:8px">▼ 用户层</div>
+    <div style="display:flex;justify-content:center;gap:8px">
+        <div class="flow-node" style="border-color:rgba(100,116,139,.3);opacity:.7"><div class="fi">👮</div>办案民警</div>
+        <div class="flow-node" style="border-color:rgba(100,116,139,.3);opacity:.7"><div class="fi">👨‍💻</div>管理员(你)</div>
+    </div>
+    <div style="text-align:center;color:var(--dim);font-size:18px">↕</div>
+    <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:4px">▼ 应用层 · 点击查看</div>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+        <div class="flow-node clickable-node" style="border-color:rgba(59,130,246,.5)" onclick="openMapDetail('cherry')"><div class="fi">💬</div>Cherry Studio<br><span style="font-size:10px;color:var(--dim)">对话前端</span></div>
+        <div class="flow-node clickable-node" style="border-color:rgba(59,130,246,.5)" onclick="openMapDetail('dify')"><div class="fi">🔧</div>Dify<br><span style="font-size:10px;color:var(--dim)">开发平台</span></div>
+        <div class="flow-node clickable-node" style="border-color:rgba(59,130,246,.5)" onclick="openMapDetail('agent')"><div class="fi">🤖</div>智能体<br><span style="font-size:10px;color:var(--dim)">Agent</span></div>
+    </div>
+    <div style="text-align:center;color:var(--dim);font-size:18px">↕</div>
+    <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:4px">▼ 模型层 · 点击查看</div>
+    <div style="display:flex;justify-content:center;gap:8px">
+        <div class="flow-node clickable-node" style="border-color:rgba(6,182,212,.5)" onclick="openMapDetail('llm')"><div class="fi">🧠</div>通义千问<br><span style="font-size:10px;color:var(--dim)">大模型 LLM</span></div>
+        <div class="flow-node clickable-node" style="border-color:rgba(6,182,212,.5)" onclick="openMapDetail('embedding')"><div class="fi">🔢</div>Embedding模型<br><span style="font-size:10px;color:var(--dim)">向量化</span></div>
+    </div>
+    <div style="text-align:center;color:var(--dim);font-size:18px">↕</div>
+    <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:4px">▼ 数据层 · 点击查看</div>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+        <div class="flow-node clickable-node" style="border-color:rgba(34,197,94,.5)" onclick="openMapDetail('vecdb')"><div class="fi">📚</div>向量数据库<br><span style="font-size:10px;color:var(--dim)">Milvus/Chroma</span></div>
+        <div class="flow-node clickable-node" style="border-color:rgba(34,197,94,.5)" onclick="openMapDetail('ocr')"><div class="fi">📄</div>OCR引擎<br><span style="font-size:10px;color:var(--dim)">扫描件识别</span></div>
+        <div class="flow-node clickable-node" style="border-color:rgba(34,197,94,.5)" onclick="openMapDetail('pg')"><div class="fi">💾</div>关系数据库<br><span style="font-size:10px;color:var(--dim)">PostgreSQL</span></div>
+    </div>
+    <div style="text-align:center;color:var(--dim);font-size:18px">↕</div>
+    <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:4px">▼ 基础设施层 · 点击查看</div>
+    <div style="display:flex;justify-content:center;gap:8px">
+        <div class="flow-node clickable-node" style="border-color:rgba(245,158,11,.5)" onclick="openMapDetail('server')"><div class="fi">🖥️</div>应用服务器<br><span style="font-size:10px;color:var(--dim)">Ubuntu x86</span></div>
+        <div class="flow-node clickable-node" style="border-color:rgba(245,158,11,.5)" onclick="openMapDetail('gpu')"><div class="fi">🎮</div>GPU服务器<br><span style="font-size:10px;color:var(--dim)">模型推理</span></div>
+    </div>
+</div>
+<div class="info-box" style="margin-top:16px">
+<strong>💡 理解这张图</strong>：你的工作就是让这个系统从"基础设施层"到"用户层"每一层都能跑起来。工程师负责搭建，你负责<strong>准备数据</strong>、<strong>调整智能体</strong>、<strong>维护知识库</strong>。
+</div>
+<div id="mapDetailSpot"></div>
+</div>
+
+<div class="card">
+<h3 style="font-size:14px;margin-bottom:16px;color:var(--purple)">🔗 核心概念依赖关系 —— 为什么要按顺序学</h3>
+<div style="font-size:13px;line-height:2.2">
+    <strong>1.</strong> 先理解<strong>什么是人工智能</strong> → 才能理解<strong>什么是<span class="term" style="cursor:pointer" onclick="openMapDetail('llm')">大模型</span></strong><br>
+    <strong>2.</strong> 理解了<span class="term" style="cursor:pointer" onclick="openMapDetail('llm')">大模型</span> → 才能理解它为什么会有<strong><span class="term" style="cursor:pointer;color:#ef4444" onclick="openMapDetail('llm')">幻觉</span></strong>（胡说八道）<br>
+    <strong>3.</strong> 理解了<strong>幻觉问题</strong> → 才能理解为什么需要<strong>RAG</strong>（先查资料再回答）<br>
+    <strong>4.</strong> 理解了<strong>RAG</strong> → 才能理解<span class="term" style="cursor:pointer" onclick="openMapDetail('vecdb')"><strong>向量数据库</strong></span>是干什么的（存和查"意思相近"的内容）<br>
+    <strong>5.</strong> 理解了<span class="term" style="cursor:pointer" onclick="openMapDetail('vecdb')">向量数据库</span> → 才能理解<strong>知识库</strong>怎么建（文档→切片→向量化→入库）<br>
+    <strong>6.</strong> 理解了<strong>知识库</strong> → 才能理解<span class="term" style="cursor:pointer" onclick="openMapDetail('agent')"><strong>智能体</strong></span>怎么调（智能体 = 大模型 + 知识库 + 工具）<br>
+    <strong>7.</strong> 理解了<span class="term" style="cursor:pointer" onclick="openMapDetail('agent')">智能体</span> → 才能理解<span class="term" style="cursor:pointer" onclick="openMapDetail('dify')"><strong>Dify</strong></span>（做智能体的开发平台）和<strong>Skill</strong>（智能体的"技能"）<br>
+    <strong>8.</strong> 理解了<strong>Skill</strong> → 才能理解<strong>超级智能体</strong>（不只是回答问题，还能自动执行任务）<br>
+    <strong>9.</strong> 以上都需要跑在<span class="term" style="cursor:pointer" onclick="openMapDetail('server')"><strong>服务器</strong></span>上 → 所以你要懂<strong>服务器</strong>和<strong>部署</strong>
+</div>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('home')">← 返回首页</button>
+    <button class="btn btn-blue" onclick="goSection('ch2')">下一章：AI前世今生 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH2 AI前世今生 ==================== -->
+<div class="container section" id="sec-ch2">
+<h2 style="margin-bottom:8px">📜 第二章：AI 前世今生</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">不需要深入，但要知道来龙去脉。这样听到术语不会懵。</p>
+
+<div class="card">
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🕰️</span><span>1950s-2010s：传统AI —— 规则和统计的时代</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>1950年</strong>，图灵提出"机器能思考吗？"——这是AI的起源。</p>
+<p>之后的几十年，AI主要有两条路：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li><strong>符号主义</strong>：人写规则，机器执行。比如"如果体温>37.3°C，则标记为发热"。问题：规则写不完。</li>
+<li><strong>统计学习</strong>：让机器从数据中找规律。比如给机器看1000张猫的照片，它学会了识别猫。问题：需要人工提取特征。</li>
+</ul>
+<p>这个时代的AI很"笨"，只能做很窄的任务。你听到的<strong>专家系统</strong>、<strong>决策树</strong>、<strong>SVM</strong>都是这个时代的产物。</p>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔥</span><span>2012年：深度学习爆发 —— 机器自己学特征</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>2012年</strong>，AlexNet在图像识别比赛中碾压传统方法，标志着<strong>深度学习</strong>时代到来。</p>
+<p>深度学习的突破在于：不需要人工提取特征了，<strong>神经网络</strong>自己从数据中学习特征。</p>
+<p>关键概念：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li><strong>神经网络</strong>：模拟人脑神经元的计算模型，一层一层地处理数据</li>
+<li><strong>深度学习</strong>：很多层的神经网络（"深"就是层数多）</li>
+<li><strong>GPU加速</strong>：GPU天生适合做大量并行计算，深度学习必须靠GPU</li>
+<li><strong>训练</strong>：用大量数据调整神经网络的参数，让它学会某种能力</li>
+</ul>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">⚡</span><span>2017年：Transformer —— 大模型的"基石"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>2017年</strong>，Google发表论文《Attention Is All You Need》，提出了<strong>Transformer</strong>架构。</p>
+<p>Transformer的核心是<strong>注意力机制（Attention）</strong>：让模型在处理每个词时，自动"关注"最相关的其他词。</p>
+<div class="info-box">简单理解：读一句话"小明养了一只猫，他很喜欢<strong>它</strong>"，注意力机制让模型知道"它"指的是"猫"而不是"小明"。这就是上下文理解。</div>
+<p>Transformer为什么重要？因为<strong>所有现代大模型</strong>（GPT、通义千问、DeepSeek、ChatGLM）都是基于Transformer构建的。它是大模型的"祖宗"。</p>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🧠</span><span>2018-2020：预训练模型 —— 先学通识再学专业</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>2018年</strong>，Google推出BERT；<strong>2020年</strong>，OpenAI推出GPT-3。</p>
+<p>核心思路：<strong>预训练 + 微调</strong></p>
+<ul style="padding-left:20px;margin:8px 0">
+<li><strong>预训练</strong>：用互联网上所有能找到的文字（万亿级token）训练模型 → 学会语言的通用规律 → 这一步极其昂贵（几百万到几千万美元）</li>
+<li><strong>微调</strong>：用特定领域的数据（如公安卷宗）再训练 → 学会专业术语和逻辑 → 这一步成本较低</li>
+</ul>
+<div class="warn-box">⚠️ 你听到的"大模型"就是预训练后的产物。它像一个读了全人类所有书的超级毕业生——什么都懂一点，但不精通任何专业。微调就是送它去"公安大学"进修。</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🚀</span><span>2022至今：大模型时代 —— ChatGPT引发的革命</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>2022年11月</strong>，ChatGPT发布，两个月用户破亿。大模型从一个技术名词变成了全民话题。</p>
+<p>之后发生的事：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li>2023年：开源大模型爆发（LLaMA、Qwen、ChatGLM、DeepSeek）</li>
+<li>2023年：<strong>RAG</strong>技术成熟，解决大模型"幻觉"问题</li>
+<li>2024年：<strong>智能体（Agent）</strong>成为热点，AI不只是聊天，还能执行任务</li>
+<li>2024年：<strong>Dify</strong>等低代码平台出现，让非程序员也能开发智能体</li>
+<li>2025年：<strong>超级智能体（Skill-based Agent）</strong>，AI可以自动编排复杂工作流</li>
+</ul>
+<div class="success-box">✅ 到这里你就知道：我们现在处于"智能体时代"。大模型是基础，RAG是增强，智能体是应用，Dify是开发工具。你学的所有东西都在这条线上。</div>
+</div></div>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('ch1')">← 上一章</button>
+    <button class="btn btn-blue" onclick="goSection('ch3')">下一章：核心名词渐进式解读 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH3 核心名词 ==================== -->
+<div class="container section" id="sec-ch3">
+<h2 style="margin-bottom:8px">📖 第三章：核心名词渐进式解读</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">按依赖关系排列，先学前面的才能理解后面的。每个名词：一句话解释 + 会议中的应用 + 类比</p>
+
+<div class="card">
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🧠</span><span><span class="term" data-key="LLM" onclick="event.stopPropagation();openTerm('LLM')">大模型（LLM）</span> —— 一切的基础</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：读了互联网上海量资料后训练出来的"超级大脑"，能读懂人话、写报告、回答问题。LLM = Large Language Model。</p>
+<p><strong>会议中</strong>："怎么把这个<strong>千问</strong>用好"——千问(通义千问/Qwen)就是你们部署的大模型。</p>
+<p><strong>类比</strong>：一个读过全世界所有书的超级毕业生，你问他什么都能答上一点，但可能答不准。</p>
+<p><strong>关键数字</strong>：模型大小用<strong>参数量</strong>衡量，7B = 70亿参数，72B = 720亿参数。参数越多越聪明，但也越吃配置。</p>
+<p><strong>国产常用</strong>：</p>
+<table>
+<tr><th>模型</th><th>出品方</th><th>可本地部署</th><th>特点</th></tr>
+<tr><td>通义千问(Qwen)</td><td>阿里</td><td>✅</td><td>你们在用的</td></tr>
+<tr><td>DeepSeek</td><td>深度求索</td><td>✅</td><td>推理能力强</td></tr>
+<tr><td>ChatGLM</td><td>智谱AI</td><td>✅</td><td>轻量版可消费级GPU</td></tr>
+</table>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">💭</span><span><span class="term" data-key="Hallucination" onclick="event.stopPropagation();openTerm('Hallucination')">幻觉（Hallucination）</span> —— 大模型最大的毛病</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：大模型一本正经地胡说八道，编造不存在的事实。</p>
+<p><strong>为什么会有幻觉</strong>：大模型本质上是"预测下一个字"的机器，它不是查资料回答的，而是"猜"出来的。猜对是知识，猜错就是幻觉。</p>
+<p><strong>类比</strong>：让一个只读过书但没上过法庭的法学毕业生审卷宗，他可能说得头头是道，但细节全是编的。</p>
+<div class="danger-box">⚠️ 公安场景下幻觉极其危险！AI可能编造不存在的法律条文，或者"发现"实际不存在的案件问题。所以<strong>所有AI输出必须人工复核</strong>。</div>
+<p><strong>怎么解决</strong>？→ 下一个词：<strong>RAG</strong></p>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">📚</span><span><span class="term" data-key="RAG" onclick="event.stopPropagation();openTerm('RAG')">RAG（检索增强生成）</span> —— 让AI"开卷考试"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：先让AI从知识库里查资料，再基于查到的资料回答问题，而不是自己瞎编。</p>
+<p><strong>RAG = Retrieval-Augmented Generation</strong></p>
+<p>流程：<strong>用户提问 → 系统从知识库检索相关内容 → 把检索结果+问题一起给大模型 → 大模型基于真实资料回答</strong></p>
+<p><strong>会议中</strong>："走<strong>RAG flow</strong>的那种向量知识"、"知识召回"——就是RAG检索。</p>
+<p><strong>类比</strong>：闭卷考试（裸大模型）vs 开卷考试（RAG）。开卷考试不一定能考满分，但至少不会编造不存在的答案。</p>
+<div class="success-box">✅ 你们做的<strong>卷宗查错</strong>、<strong>法规检索</strong>，核心架构都是RAG。</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔢</span><span><span class="term" data-key="Embedding" onclick="event.stopPropagation();openTerm('Embedding')">向量化（Embedding）</span> + <span class="term" data-key="向量数据库" onclick="event.stopPropagation();openTerm('向量数据库')">向量数据库</span> —— RAG的底层引擎</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>Embedding一句话</strong>：把一段文字转换成一串数字（向量），让计算机能计算"这两段话意思有多像"。</p>
+<p><strong>向量数据库一句话</strong>：专门存这些向量数字的数据库，支持"按意思相近"搜索，而不是按关键词搜索。</p>
+<p><strong>为什么RAG需要它</strong>：民警问"治安案件办案期限多长"，传统数据库搜不到（因为"期限"≠"时间"≠"多久"），但向量数据库能找到"办案时限30日"那条（因为它俩"意思相近"）。</p>
+<p><strong>会议中</strong>："走一范的那种<strong>向量知识</strong>"、"建立知识库的方法，成本最低的还是走向量"——就是向量数据库。</p>
+<p><strong>常用向量数据库</strong>：</p>
+<table>
+<tr><th>名称</th><th>特点</th><th>场景</th></tr>
+<tr><td>Milvus</td><td>开源，功能全</td><td>大规模生产</td></tr>
+<tr><td>Chroma</td><td>轻量，易上手</td><td>快速原型</td></tr>
+<tr><td>RAGFlow</td><td>专门针对知识召回优化</td><td>会议中提到的</td></tr>
+</table>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">✂️</span><span><span class="term" data-key="Chunking" onclick="event.stopPropagation();openTerm('Chunking')">切片/分块（Chunking）</span> —— 知识库入库前必须做的步骤</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：把一篇长文档切成小段（如每段500字），方便向量化和检索。</p>
+<p><strong>为什么必须切</strong>：Embedding模型有字数限制（通常512或8192个token），太长的文档塞不进去。</p>
+<p><strong>会议中的关键讨论</strong>：</p>
+<div class="warn-box">"切片实际上就是切片，就是你得把一个完整内容的段落切到一起，你不要把它切断了。就比方说法律第一条都没说完就切了，然后召回的知识是碎片的，或者有的时候就召不回来。"——这就是切片的核心难点：<strong>切的位置不对，检索质量就差</strong>。</div>
+<p><strong>常见切法</strong>：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li><strong>固定长度切</strong>：每500字切一段。简单粗暴，但可能把一句话切成两半</li>
+<li><strong>按段落/章节切</strong>：以换行符或标题为界。更合理，但需要文档有结构</li>
+<li><strong>智能切</strong>：用模型判断语义边界。最准确，但成本最高</li>
+</ul>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🤖</span><span><span class="term" data-key="Agent" onclick="event.stopPropagation();openTerm('Agent')">智能体（Agent）</span> —— 不只会回答，还会行动</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：能自主思考和行动的大模型应用。不只是回答问题，还能"决定"调用什么工具、查什么数据库、执行什么操作。</p>
+<p><strong>会议中</strong>："写智能体"、"开发一个智能体去过它处理完的文档"——就是做Agent。</p>
+<p><strong>智能体 = 大模型 + 知识库 + 工具 + 提示词</strong></p>
+<div class="flow" style="font-size:11px">
+    <div class="flow-node">🧠 大模型<br>(推理)</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node">📚 知识库<br>(查资料)</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node">🔧 工具<br>(OCR/API)</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-node">📝 提示词<br>(行为规则)</div>
+    <div class="flow-arrow">=</div>
+    <div class="flow-node" style="border-color:rgba(59,130,246,.4)">🤖 智能体</div>
+</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔧</span><span><span class="term" data-key="Dify" onclick="event.stopPropagation();openTerm('Dify')">Dify</span> —— 做智能体的低代码平台</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：一个开源的智能体开发平台，拖拽式配置，不需要写代码就能做AI应用。</p>
+<p><strong>会议中</strong>："在这个Dify的或者别的智能体开发框架上"——Dify就是你们要用的工作台。</p>
+<p><strong>Dify能做什么</strong>：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li>配置知识库（上传文档→自动切片→向量化→入库）</li>
+<li>创建智能体（选模型+配提示词+挂知识库+加工具）</li>
+<li>设计工作流（拖拽节点串成流水线）</li>
+<li>发布应用（生成网页链接或API）</li>
+</ul>
+<p><strong>Dify分两个版本</strong>：</p>
+<table>
+<tr><th>版本</th><th>费用</th><th>功能</th><th>你们用哪个</th></tr>
+<tr><td>开源版(Community)</td><td>免费</td><td>核心功能都有</td><td>✅ 用这个</td></tr>
+<tr><td>企业版(Enterprise)</td><td>付费</td><td>多一些管理功能</td><td>不需要</td></tr>
+</table>
+<div class="info-box">💡 会议中提到的"百千万平台"就是在Dify开源版基础上二次开发的——加了一个应用市场，让大家可以共享和复用智能体。</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔄</span><span><span class="term" data-key="Workflow" onclick="event.stopPropagation();openTerm('Workflow')">工作流（Workflow）</span> vs <span class="term" data-key="Skill" onclick="event.stopPropagation();openTerm('Skill')">Skill</span> vs <span class="term" data-key="超级智能体" onclick="event.stopPropagation();openTerm('超级智能体')">超级智能体</span></span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>这是会议中最核心的概念升级，三个层次：</p>
+
+<h4 style="color:var(--blue);margin:12px 0 8px">第一代：工作流智能体</h4>
+<p>用户<strong>手动定义</strong>每一步做什么：第一步查法规、第二步比对、第三步生成报告。像流水线，固定路径。</p>
+<p><strong>优点</strong>：可控、快速、简单。<strong>缺点</strong>：只能做预设的事，遇到意外情况就卡住。</p>
+<p><strong>会议中</strong>："用户定义工作流的方式实现智能体"、"苏州公安做了600多个智能体"——都是工作流型。</p>
+
+<h4 style="color:var(--purple);margin:16px 0 8px">第二代：Skill智能体</h4>
+<p>把AI的能力封装成一个个<strong>Skill（技能）</strong>，智能体根据用户的请求<strong>自动选择</strong>调用哪个Skill。像工具箱，按需取用。</p>
+<p><strong>优点</strong>：灵活，可以应对不同场景。<strong>缺点</strong>：需要设计好Skill的接口。</p>
+<p><strong>会议中</strong>："真正执行的时候，其实还是写Skill，用Skill的方式去解决，这是目前比较好的落地形式"。</p>
+
+<h4 style="color:var(--red);margin:16px 0 8px">第三代：超级智能体（Super Agent）</h4>
+<p>智能体不仅能选工具，还能<strong>自动规划步骤、自我反思、多步推理</strong>。像一个能独立完成任务的实习生。</p>
+<p><strong>会议中</strong>："新一代的智能体是通过Skill的方式交互来形成的"、"现在其实大家就把它叫<strong>超级智能体</strong>"。</p>
+
+<div class="success-box">
+<strong>总结</strong>：工作流 = 固定流水线 | Skill = 按需调工具 | 超级智能体 = 自主规划+调工具<br>
+你们目前先用<strong>工作流</strong>把基础功能跑通，后续升级到<strong>Skill</strong>和<strong>超级智能体</strong>。
+</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">💬</span><span><span class="term" data-key="CherryStudio" onclick="event.stopPropagation();openTerm('CherryStudio')">Cherry Studio</span> —— 大模型的"遥控器"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：一个本地安装的聊天软件，连接到你们内网的大模型，像用微信一样跟AI对话。</p>
+<p><strong>会议中</strong>："装一个Cherry Studio，它就是一个大模型的交互前端"、"把模型的token配置给到您，配到Cherry Studio里就可以"。</p>
+<p><strong>关键点</strong>：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li>纯前端，不需要连互联网</li>
+<li>配置模型API地址和Token就能用</li>
+<li>Windows版有安装包</li>
+<li>⚠️ 需要确认市局是否允许安装（白名单检查）</li>
+</ul>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">📝</span><span><span class="term" data-key="Prompt" onclick="event.stopPropagation();openTerm('Prompt')">提示词（Prompt）</span> —— 控制AI行为的"遥控器"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：你告诉大模型"怎么回答问题"的指令文字。</p>
+<p><strong>会议中</strong>："你到时候一边用一边自己可以改提示词的编排"、"他检测的内容你来配"——提示词是你最核心的日常工作。</p>
+<p><strong>举个例子</strong>：</p>
+<pre><span class="comment"># 一个卷宗查错智能体的提示词示例</span>
+你是公安卷宗审核助手。请按照以下规则检查卷宗：
+1. 检查所有文书日期是否逻辑一致（传唤时间≤拘留时间≤逮捕时间）
+2. 检查嫌疑人姓名在各文书中是否一致
+3. 检查强制措施期限是否超期
+4. 检查处罚种类和幅度是否与违法事实匹配
+
+输出格式：
+- 问题描述
+- 涉及文书名称
+- 修改建议
+- 依据的法律条文</pre>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">📦</span><span><span class="term" data-key="Token" onclick="event.stopPropagation();openTerm('Token')">Token</span> —— AI世界的"计价单位"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：大模型处理文字的最小单位，1个汉字≈1个token，英文单词≈0.75个token。</p>
+<p><strong>为什么重要</strong>：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li>每次对话消耗token，token越多处理越慢、成本越高</li>
+<li>模型有<strong>上下文窗口</strong>限制（如128K token ≈ 10万字），超过就"记不住"</li>
+<li>卷宗很长（100页≈3万字），要注意是否超出模型窗口</li>
+</ul>
+</div></div>
+
+</div><!-- end card -->
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('ch2')">← 上一章</button>
+    <button class="btn btn-blue" onclick="goSection('ch4')">下一章：开发入门 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH4 开发入门 ==================== -->
+<div class="container section" id="sec-ch4">
+<h2 style="margin-bottom:8px">💻 第四章：开发入门 —— 从打开终端开始</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">你不需要会写代码，但必须能操作服务器、看懂命令、跟工程师对话。</p>
+
+<div class="card">
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🖥️</span><span>本地电脑 vs 服务器 —— 先搞清楚"在哪台机器上"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<table>
+<tr><th></th><th>本地电脑</th><th>服务器</th></tr>
+<tr><td>是什么</td><td>你面前的笔记本/台式机</td><td>机房里24小时开机的电脑</td></tr>
+<tr><td>操作系统</td><td>Windows</td><td>Ubuntu Linux</td></tr>
+<tr><td>用途</td><td>日常办公、浏览网页</td><td>运行AI系统、数据库</td></tr>
+<tr><td>怎么用</td><td>直接操作</td><td>远程登录（SSH）</td></tr>
+</table>
+<p style="margin-top:12px"><strong>会议中的服务器</strong>：</p>
+<ul style="padding-left:20px">
+<li><strong>应用服务器</strong>：Ubuntu x86系统，跑Dify、知识库、数据库、文档存储</li>
+<li><strong>GPU服务器</strong>：带显卡的服务器，跑大模型推理（千问）</li>
+</ul>
+<div class="info-box">💡 为什么分两台？因为大模型推理需要GPU（贵），其他服务不需要GPU（便宜）。分开部署更灵活，GPU服务器以后要换也不影响应用服务器上的数据。</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔑</span><span>SSH —— 远程进入服务器的"钥匙"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：SSH是远程登录服务器的方式，让你在自己电脑上操作机房里的服务器。</p>
+<p><strong>怎么用（Windows电脑）</strong>：</p>
+<pre><span class="comment"># 方法1：Windows自带的终端（推荐）</span>
+<span class="cmd">按 Win+R → 输入 cmd → 回车</span>
+<span class="cmd">ssh 用户名@服务器IP地址</span>
+<span class="comment"># 例如：</span>
+<span class="cmd">ssh admin@10.0.1.100</span>
+<span class="output">输入密码：******（密码不会显示，直接输完回车）</span>
+<span class="output">admin@app-server:~$  ← 出现这个就登录成功了！</span></pre>
+
+<pre><span class="comment"># 方法2：用MobaXterm（图形化工具，更友好）</span>
+<span class="cmd">1. 下载安装 MobaXterm（免费版即可）</span>
+<span class="cmd">2. 点击 Session → SSH</span>
+<span class="cmd">3. 填入服务器IP、用户名</span>
+<span class="cmd">4. 点击连接，输入密码</span></pre>
+
+<div class="warn-box">⚠️ 你会需要的信息（提前问工程师要）：<br>
+• 服务器IP地址（如 10.0.1.100）<br>
+• 用户名（如 admin 或 root）<br>
+• 密码<br>
+• 端口号（默认22，如果有改的话）
+</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🐧</span><span>Linux 基础命令 —— 会这几条就够了</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>服务器用的是Ubuntu Linux，没有鼠标和窗口，全靠命令操作。以下是你必须会的命令：</p>
+<pre><span class="comment"># ===== 文件操作 =====</span>
+<span class="cmd">ls</span>              <span class="output"># 列出当前目录的文件（像打开文件夹）</span>
+<span class="cmd">ls -la</span>          <span class="output"># 列出所有文件（包括隐藏的），带详细信息</span>
+<span class="cmd">cd /path/to/dir</span> <span class="output"># 进入某个目录（像双击文件夹）</span>
+<span class="cmd">cd ..</span>           <span class="output"># 返回上一级目录</span>
+<span class="cmd">pwd</span>             <span class="output"># 显示当前在哪个目录</span>
+<span class="cmd">cat file.txt</span>    <span class="output"># 查看文件内容</span>
+<span class="cmd">mkdir dirname</span>   <span class="output"># 创建文件夹</span>
+<span class="cmd">cp a.txt b.txt</span>  <span class="output"># 复制文件</span>
+<span class="cmd">mv a.txt /tmp/</span>  <span class="output"># 移动文件</span>
+<span class="cmd">rm file.txt</span>     <span class="output"># 删除文件（危险！删了就没了）</span>
+
+<span class="comment"># ===== 系统信息 =====</span>
+<span class="cmd">nvidia-smi</span>      <span class="output"># 查看GPU状态（是否在使用、显存占用）</span>
+<span class="cmd">free -h</span>         <span class="output"># 查看内存使用情况</span>
+<span class="cmd">df -h</span>           <span class="output"># 查看硬盘空间</span>
+<span class="cmd">top</span>             <span class="output"># 查看CPU和内存实时使用（按q退出）</span>
+<span class="cmd">docker ps</span>       <span class="output"># 查看正在运行的Docker容器</span>
+
+<span class="comment"># ===== 服务管理 =====</span>
+<span class="cmd">systemctl status 服务名</span>  <span class="output"># 查看服务状态</span>
+<span class="cmd">systemctl start 服务名</span>   <span class="output"># 启动服务</span>
+<span class="cmd">systemctl stop 服务名</span>    <span class="output"># 停止服务</span>
+<span class="cmd">systemctl restart 服务名</span> <span class="output"># 重启服务</span></pre>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🐳</span><span>Docker —— 应用打包的"集装箱"</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：把程序和它的运行环境打包成一个"集装箱"，搬到哪都能运行，不用操心环境配置。</p>
+<p><strong>为什么需要Docker</strong>：大模型系统涉及很多组件（模型服务、向量数据库、前端界面……），每个组件的环境要求不同。手动配置极其复杂，Docker一键搞定。</p>
+<p><strong>你需要知道的Docker命令</strong>：</p>
+<pre><span class="cmd">docker ps</span>                    <span class="output"># 查看正在运行的所有容器</span>
+<span class="cmd">docker ps -a</span>                 <span class="output"># 查看所有容器（包括停止的）</span>
+<span class="cmd">docker logs 容器名</span>            <span class="output"># 查看某个容器的日志（排错用）</span>
+<span class="cmd">docker restart 容器名</span>         <span class="output"># 重启某个容器</span>
+<span class="cmd">docker stop 容器名</span>            <span class="output"># 停止某个容器</span>
+<span class="cmd">docker start 容器名</span>           <span class="output"># 启动某个容器</span>
+<span class="cmd">docker-compose up -d</span>         <span class="output"># 启动整个系统（在docker-compose.yml所在目录）</span>
+<span class="cmd">docker-compose down</span>          <span class="output"># 停止整个系统</span></pre>
+<div class="info-box">💡 <strong>docker-compose</strong>是Docker的"指挥官"，一个配置文件定义所有容器怎么启动。工程师部署时会写好这个文件，你只需要知道<code>up -d</code>启动、<code>down</code>停止。</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🌐</span><span>端口和访问 —— 怎么在浏览器打开系统</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：服务器上的每个服务都有一个"门牌号"（端口号），浏览器通过 IP:端口 访问。</p>
+<pre><span class="comment"># 常见端口</span>
+http://10.0.1.100:80     <span class="output"># Dify前端界面</span>
+http://10.0.1.100:8000   <span class="output"># 大模型API服务</span>
+http://10.0.1.100:5432   <span class="output"># PostgreSQL数据库</span>
+http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pre>
+<div class="warn-box">⚠️ 防火墙必须开放对应端口，否则浏览器打不开。提前让信息中心开端口！</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔒</span><span>信创 —— 公安IT环境的特殊约束</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：信创 = 信息技术应用创新，核心要求是用国产软硬件替代国外产品。</p>
+<p><strong>会议中</strong>："X86虚拟机"、"腾讯数据库"、"达梦数据库"——都涉及信创。</p>
+<p><strong>对你们的影响</strong>：</p>
+<table>
+<tr><th>类别</th><th>传统方案</th><th>信创替代</th></tr>
+<tr><td>操作系统</td><td>Windows/Ubuntu</td><td>麒麟/统信UOS</td></tr>
+<tr><td>数据库</td><td>MySQL/PostgreSQL</td><td>达梦/TDSQL(腾讯)</td></tr>
+<tr><td>CPU</td><td>Intel/AMD (x86)</td><td>鲲鹏/飞腾 (ARM)</td></tr>
+</table>
+<div class="info-box">💡 好消息：会议确认了你们的应用服务器是<strong>x86架构的Ubuntu</strong>，不是ARM信创环境，所以Docker镜像可以正常使用。数据库方面，如果可以用PostgreSQL就最简单。</div>
+</div></div>
+
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('ch3')">← 上一章</button>
+    <button class="btn btn-blue" onclick="goSection('ch5')">下一章：大模型部署实战 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH5 大模型部署 ==================== -->
+<div class="container section" id="sec-ch5">
+<h2 style="margin-bottom:8px">🚀 第五章：大模型部署实战</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">了解部署全流程，工程师来做的时候你知道在干什么。</p>
+
+<div class="card">
+<h3 style="font-size:14px;margin-bottom:16px">📦 部署全流程（工程师做的事，你只需了解）</h3>
+<div class="flow" style="font-size:11px;flex-wrap:wrap">
+    <div class="flow-node"><div class="fi">1️⃣</div>确认服务器<br>配置</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fi">2️⃣</div>安装基础<br>环境</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fi">3️⃣</div>导入模型<br>文件</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fi">4️⃣</div>部署各组件<br>Docker</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fi">5️⃣</div>配置和<br>调通</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><div class="fi">6️⃣</div>验证测试</div>
+</div>
+
+<div class="expandable" style="margin-top:16px"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">1️⃣</span><span>确认服务器配置</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<table>
+<tr><th>检查项</th><th>要求</th><th>怎么查</th></tr>
+<tr><td>GPU型号</td><td>NVIDIA，显存≥16GB</td><td><code>nvidia-smi</code></td></tr>
+<tr><td>内存</td><td>≥64GB</td><td><code>free -h</code></td></tr>
+<tr><td>硬盘</td><td>≥200GB可用</td><td><code>df -h</code></td></tr>
+<tr><td>操作系统</td><td>Ubuntu 20.04/22.04 x86</td><td><code>cat /etc/os-release</code></td></tr>
+<tr><td>Docker</td><td>已安装</td><td><code>docker --version</code></td></tr>
+<tr><td>NVIDIA驱动</td><td>已安装</td><td><code>nvidia-smi</code></td></tr>
+<tr><td>CUDA</td><td>已安装</td><td><code>nvcc --version</code></td></tr>
+</table>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">2️⃣</span><span>安装基础环境</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>工程师会在服务器上安装：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li><strong>Docker + Docker Compose</strong>：容器运行环境</li>
+<li><strong>NVIDIA Container Toolkit</strong>：让Docker能使用GPU</li>
+<li><strong>基础网络配置</strong>：开放端口、配置防火墙</li>
+</ul>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">3️⃣</span><span>导入模型文件</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>模型文件通常几十GB（7B量化版约4-8GB，72B全量版约140GB），需要通过移动硬盘或内网传输导入。</p>
+<div class="warn-box">⚠️ 会议提到："如果GPU服务器要换，文档要拷出来再同步就非常麻烦"——所以应用服务器硬盘要大，文档存应用服务器而不是GPU服务器。</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">4️⃣</span><span>部署各组件</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>用Docker Compose一键启动所有服务：</p>
+<pre><span class="comment"># 在docker-compose.yml所在目录执行</span>
+<span class="cmd">docker-compose up -d</span>
+<span class="output"># 这会启动：大模型服务、向量数据库、Dify平台、前端界面等</span></pre>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">5️⃣</span><span>配置Cherry Studio连接大模型</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>部署完成后，在你的Windows电脑上：</p>
+<pre><span class="cmd">1. 安装 Cherry Studio（Windows版安装包）</span>
+<span class="cmd">2. 打开 Cherry Studio</span>
+<span class="cmd">3. 设置 → 模型配置</span>
+<span class="cmd">4. 填入：</span>
+   <span class="output">- API地址：http://10.0.1.100:8000/v1</span>
+   <span class="output">- 模型名称：qwen2.5-7b</span>
+   <span class="output">- API Key：（工程师提供）</span>
+<span class="cmd">5. 保存 → 开始对话！</span></pre>
+<div class="warn-box">⚠️ 需确认市局是否允许安装Cherry Studio。会议中说"你把那个名字发给我，我来判断一下"——等工程师提供软件名，找信息中心确认白名单。</div>
+</div></div>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('ch4')">← 上一章</button>
+    <button class="btn btn-blue" onclick="goSection('ch6')">下一章：智能体开发 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH6 智能体开发 ==================== -->
+<div class="container section" id="sec-ch6">
+<h2 style="margin-bottom:8px">🤖 第六章：智能体开发</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">用Dify做智能体，从工作流到超级智能体。</p>
+
+<div class="card">
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔧</span><span>用 Dify 创建智能体的步骤</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<ol style="padding-left:20px;margin:8px 0">
+<li><strong>打开Dify</strong>：浏览器访问 <code>http://10.0.1.100:80</code></li>
+<li><strong>创建知识库</strong>：上传文档 → 自动切片 → 向量化 → 入库</li>
+<li><strong>创建智能体</strong>：选择"聊天助手"或"Agent"类型</li>
+<li><strong>配置智能体</strong>：选模型 + 写提示词 + 关联知识库 + 添加工具</li>
+<li><strong>测试</strong>：在Dify的调试窗口里测试对话效果</li>
+<li><strong>发布</strong>：生成网页链接或API接口</li>
+</ol>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">📄</span><span>卷宗查错智能体 —— 你的第一个实战</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p>会议确定的核心任务：用AI检查卷宗中的逻辑错误。</p>
+<p><strong>整体流程</strong>：</p>
+<div class="flow" style="font-size:11px">
+    <div class="flow-node">📋 扫描件</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">🔍 OCR识别</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">✂️ 切片预处理</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">🧠 智能体检查</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">📊 输出问题清单</div>
+</div>
+
+<p style="margin-top:12px"><strong>需要配置的检查规则（提示词里定义）</strong>：</p>
+<table>
+<tr><th>检查项</th><th>示例</th></tr>
+<tr><td>日期逻辑</td><td>传唤时间 ≤ 拘留时间 ≤ 逮捕时间</td></tr>
+<tr><td>姓名一致性</td><td>同一嫌疑人姓名在所有文书中应完全相同</td></tr>
+<tr><td>强制措施期限</td><td>拘留不得超过法定期限</td></tr>
+<tr><td>处罚与事实匹配</td><td>处罚种类应与违法事实对应</td></tr>
+<tr><td>文书完整性</td><td>必需的文书是否齐全</td></tr>
+</table>
+
+<p style="margin-top:12px"><strong>会议中的关键信息</strong>：</p>
+<div class="info-box">
+"你就提要求，比方说逻辑问题、法律问题，这些你必须修正或者给出修改建议" → <strong>你要做的是定义检查规则</strong><br><br>
+"他把问题都给你画出来，你旁边列上这个问题是啥？修改建议是啥？你在右边就直接改" → <strong>输出格式要清晰</strong><br><br>
+"至于他检测的内容，你到时候你来配就行了" → <strong>你负责维护检测规则</strong>，工程师负责搭框架
+</div>
+</div></div>
+
+<div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🏪</span><span>百千万平台 —— 共享智能体的应用市场</span><span class="arrow">▶</span></div>
+<div class="expand-body">
+<p><strong>一句话</strong>：在Dify基础上二次开发的平台，加了一个应用市场，让大家可以共享和复用智能体。</p>
+<p><strong>名字来源</strong>：映射"百千万工程"——打造100个AI工程师，实现1000个智能体应用，衍生出万级落地场景。</p>
+<p><strong>会议中</strong>："在我的应用服务器上布的这套东西，是不是和你的百千万也差不多？" → <strong>是的，你们部署的就是百千万平台</strong>。</p>
+<p><strong>对你的意义</strong>：</p>
+<ul style="padding-left:20px;margin:8px 0">
+<li>你做的智能体可以发布到平台上，其他部门也能用</li>
+<li>别人做的智能体你也可以复制过来改一改用</li>
+<li>这就是"共创"——不用每个人都从零开始</li>
+</ul>
+</div></div>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('ch5')">← 上一章</button>
+    <button class="btn btn-blue" onclick="goSection('ch7')">下一章：你的实战任务 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH7 实战任务 ==================== -->
+<div class="container section" id="sec-ch7">
+<h2 style="margin-bottom:8px">🎯 第七章：你的实战任务</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">基于会议录音整理出的所有具体任务，按优先级排列。</p>
+
+<div class="card">
+<h3 style="font-size:14px;margin-bottom:16px;color:var(--red)">🔴 紧急任务（工程师来之前必须完成）</h3>
+<div id="urgentChecks">
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集行政案件卷宗2份（不同类型）作为测试数据</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集刑事案件卷宗2份（不同罪名）作为测试数据</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集信息快报文档若干份</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集AI专班周报/方案/进度表</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">所有测试数据完成脱敏处理</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">确认服务器配置（联系信息中心）</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">确认Cherry Studio是否允许安装</span></div>
+</div>
+</div>
+
+<div class="card">
+<h3 style="font-size:14px;margin-bottom:16px;color:var(--orange)">🟡 工程师到场后的配合任务</h3>
+<div id="deployChecks">
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">全程陪同工程师部署系统</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">记录每一步部署操作（截图+笔记）</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">提供测试卷宗供系统调试</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">解答业务问题（案件流程、法规等）</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">学会启动/停止系统</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">学会查看系统日志</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">学会修改提示词和检查规则</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">学会向知识库添加文档</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">学会Cherry Studio配置和使用</span></div>
+</div>
+</div>
+
+<div class="card">
+<h3 style="font-size:14px;margin-bottom:16px;color:var(--green)">🟢 系统部署完成后的长期任务</h3>
+<div id="longtermChecks">
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">定义卷宗查错检查规则（提示词迭代）</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">持续更新知识库（法规、案例）</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集法制部门的需求和反馈</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">探索历史卷宗批量导入知识库</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">向领导汇报系统进展</span></div>
+</div>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-ghost" onclick="goSection('ch6')">← 上一章</button>
+    <button class="btn btn-blue" onclick="goSection('ch8')">下一章：速查手册 →</button>
+</div>
+</div>
+
+<!-- ==================== SECTION: CH8 速查手册 ==================== -->
+<div class="container section" id="sec-ch8">
+<h2 style="margin-bottom:8px">🔍 第八章：A-Z 速查手册</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:24px">听到任何词，按 Ctrl+F 搜索</p>
+
+<div class="card">
+<p style="color:var(--dim);font-size:12px;margin-bottom:12px">💡 点击任意术语可查看详细解释、案例、来源</p>
+<table style="font-size:12px">
+<tr><th style="width:140px">术语</th><th>一句话解释</th></tr>
+<tbody id="glossaryTableBody">
+<tr><td colspan="2" style="text-align:center;color:var(--dim);padding:20px">加载中...</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="text-align:center;margin-top:32px;padding:32px">
+    <p style="color:var(--muted);font-size:14px;margin-bottom:12px">🎉 恭喜！你已经完成全部学习内容</p>
+    <p style="color:var(--dim);font-size:12px;margin-bottom:16px">记住：不需要会写代码，你的核心能力是<strong style="color:var(--text)">懂业务 + 懂概念 + 能跟工程师对话</strong></p>
+    <button class="btn btn-blue" data-target="home">回到首页</button>
+</div>
+</div>
+
+<!-- 词汇详情数据（分3个文件，逐步加载防止崩溃） -->
+<script>
+// 词汇详情数据 Part 1：核心8个术语
+// 每个术语包含：title, subtitle, icon, color, brief, sections[]
+// section types: 'h'(标题段落), 'example'(案例), 'quote'(引用), 'timeline'(时间线), 'related'(相关术语)
+window.GLOSSARY = window.GLOSSARY || {};
+
+Object.assign(window.GLOSSARY, {
+'LLM': {
+  title: '大模型（LLM）',
+  subtitle: 'Large Language Model',
+  icon: '🧠',
+  color: '#3b82f6',
+  brief: '读了互联网上海量资料后训练出来的"超级大脑"，能读懂人话、写报告、回答问题',
+  sections: [
+    {type:'h', title:'📖 什么是LLM', text:'LLM（Large Language Model，大语言模型）是一种基于深度学习的人工智能模型，通过阅读互联网上数万亿字的文本数据进行"预训练"，从而掌握了语言的规律和海量的知识。它可以理解人类语言、回答问题、撰写文章、翻译、写代码等。常见的LLM包括OpenAI的GPT系列、阿里的通义千问（Qwen）、深度求索的DeepSeek、智谱的ChatGLM等。'},
+    {type:'h', title:'🔬 工作原理', text:'LLM的核心原理是"预测下一个词"。给定一段文字，模型根据上下文计算每个可能词语的概率，选择概率最高的作为输出，然后逐词生成。这个过程看似简单，但当模型足够大（参数量达到百亿、千亿级别）、训练数据足够多时，就涌现出了惊人的理解和推理能力，这就是所谓的"涌现能力"（Emergent Abilities）。'},
+    {type:'h', title:'📏 参数量意味着什么', text:'参数量是衡量模型规模的核心指标。7B=70亿参数，72B=720亿参数。参数越多，模型越"聪明"，但需要的计算资源（GPU显存）也越多。7B模型大约需要8-16GB显存即可运行，72B模型需要多张高端GPU。为在有限资源下运行大模型，通常会使用"量化"技术，将模型压缩到4bit或8bit，大幅降低显存需求。'},
+    {type:'example', title:'🌟 真实案例', text:'2023年，某市公安局率先部署了本地化的通义千问大模型，用于辅助民警撰写案件摘要、生成询问提纲、比对法规条文。部署后发现：7B量化版模型在单张RTX 4090（24GB显存）上即可流畅运行，而72B版本需要4张A100 GPU。最终选择了7B量化版+RAG增强的方案，既满足了业务需求又控制了成本。'},
+    {type:'h', title:'🏛️ 公安场景应用', text:'在公安工作中，LLM可以：①辅助撰写案件报告和法律文书；②基于卷宗内容回答问题；③智能检索法规条文；④比对不同文书中的信息一致性。但需注意：LLM本身会产生"幻觉"，必须通过RAG技术结合知识库来约束其回答。'},
+    {type:'h', title:'💡 会议原话', text:'"怎么把这个千问用好"——千问（通义千问/Qwen）就是你们部署的大模型。会议还提到"7B的可以跑在单卡上"，"72B要四张卡"，这是在讨论模型大小与硬件的关系。'},
+    {type:'related', terms:['Transformer','预训练','Token','量化','Hallucination','GPU','推理']}
+  ]
+},
+
+'Hallucination': {
+  title: '幻觉（Hallucination）',
+  subtitle: 'AI的一本正经胡说八道',
+  icon: '💭',
+  color: '#ef4444',
+  brief: '大模型一本正经地胡说八道，编造不存在的事实——这是大模型最大的缺陷',
+  sections: [
+    {type:'h', title:'📖 什么是幻觉', text:'幻觉（Hallucination）是指大模型生成看似合理但实际上与事实不符的内容。模型会用非常自信的语气说出完全错误的信息，让人很难分辨真假。这不是bug，而是LLM工作原理的固有特性——它是"预测下一个词"的机器，不是"查资料再回答"的机器。'},
+    {type:'h', title:'🔬 为什么会产生幻觉', text:'产生幻觉的三个根本原因：①训练数据的局限——模型的知识截止到训练数据的时间，之后的新信息它不知道；②概率生成的本质——模型是根据概率"猜"下一个词，猜错了就是幻觉；③缺乏事实核查机制——模型没有"我不知道"的意识，遇到不会的问题也会编造答案。'},
+    {type:'example', title:'🌟 幻觉的典型表现', text:'案例1：问LLM"《刑法》第388条是什么内容"，它可能编造一个看似合理的法条内容，但实际法律中该条文的表述完全不同。
+
+案例2：问"2024年某市的盗窃案立案数"，模型会编造一个数字，但实际上它根本无法获取这个数据。
+
+案例3：让模型审查卷宗，它可能指出一个"法律错误"，但该错误根本不存在，引用的法律条文也是编造的。'},
+    {type:'h', title:'⚠️ 公安场景的极端危险性', text:'在公安场景下，幻觉极其危险！AI可能：①编造不存在的法律条文，导致错误的法律判断；②"发现"实际不存在的案件疑点，浪费警力；③给出错误的办案程序建议，导致程序违法。因此，所有AI输出必须人工复核，绝不能直接采信。'},
+    {type:'h', title:'🛡️ 如何解决幻觉', text:'业界解决幻觉的主要方案：①RAG（检索增强生成）——让模型先查资料再回答，基于真实文档生成；②提示词约束——在提示词中明确要求"如果不确定就回答不知道"；③多次验证——让模型自己检查答案的可靠性；④人工审核——所有输出必须由业务人员复核。其中RAG是目前最有效的方案。'},
+    {type:'related', terms:['RAG','LLM','Prompt','知识库','Token']}
+  ]
+},
+
+'RAG': {
+  title: 'RAG（检索增强生成）',
+  subtitle: 'Retrieval-Augmented Generation',
+  icon: '📚',
+  color: '#22c55e',
+  brief: '先让AI从知识库里查资料，再基于查到的资料回答问题，而不是自己瞎编',
+  sections: [
+    {type:'h', title:'📖 什么是RAG', text:'RAG（Retrieval-Augmented Generation，检索增强生成）是一种让大模型基于真实文档回答问题的技术。核心思路是：当用户提问时，系统先从知识库中检索出相关的文档片段，然后将这些片段和用户问题一起交给大模型，让大模型基于真实资料来生成回答。这就像从"闭卷考试"变成了"开卷考试"。'},
+    {type:'h', title:'🔄 RAG的完整流程', text:'①用户提出问题 → ②系统将问题进行向量化（Embedding）→ ③在向量数据库中搜索与问题"意思最相近"的文档片段 → ④取出Top-K条最相关的片段 → ⑤将这些片段+原始问题一起组装成提示词 → ⑥交给大模型生成回答。整个过程毫秒级完成。'},
+    {type:'example', title:'🌟 公安场景案例', text:'场景：民警问"治安案件办案期限多长？"
+
+❌ 没有RAG：大模型可能回答"治安案件办案期限为60日"（编造的）
+✅ 有RAG：系统先从法规知识库检索到《治安管理处罚法》第99条原文，然后大模型基于法条回答"根据《治安管理处罚法》第99条，公安机关办理治安案件的期限自受理之日起不得超过30日；案情重大、复杂的，经上一级公安机关批准，可以延长30日"——准确且有出处。'},
+    {type:'h', title:'📐 RAG的三种实现方式', text:'①基础RAG：简单的检索+生成，成本低效果一般；②高级RAG：加入查询改写、重排序、多路召回等优化，效果更好；③模块化RAG：将RAG拆分为可替换的模块，灵活组合。你们目前先用基础RAG，后续可以逐步升级。'},
+    {type:'h', title:'💡 会议原话', text:'"走RAG flow的那种向量知识"——指的就是用RAG流程配合向量数据库做知识检索。"知识召回"——就是RAG中的检索步骤。"建立知识库的方法，成本最低的还是走向量"——确认了RAG+向量数据库是性价比最高的方案。'},
+    {type:'quote', title:'📝 权威来源', text:'RAG技术由Facebook（Meta）研究团队在2020年发表论文《Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks》首次提出。论文证明，通过检索外部知识库，模型的准确性和可信度显著提升。此后RAG成为大模型应用的标准架构。'},
+    {type:'related', terms:['Embedding','向量数据库','Chunking','知识库','召回','LLM','Hallucination','RAGFlow']}
+  ]
+},
+
+'Embedding': {
+  title: '向量化（Embedding）',
+  subtitle: '把文字变成数字的魔法',
+  icon: '🔢',
+  color: '#8b5cf6',
+  brief: '把一段文字转换成一串数字（向量），让计算机能计算"这两段话意思有多像"',
+  sections: [
+    {type:'h', title:'📖 什么是Embedding', text:'Embedding（向量化/嵌入）是将文字、图片等非结构化数据转换为固定长度的数字向量的技术。简单说，就是把"你好"变成[0.12, -0.34, 0.56, ...]这样的一串数字。这个转换不是随机的，而是经过训练的模型完成的，使得"意思相近"的文字在数学空间中的距离也相近。'},
+    {type:'h', title:'🔬 工作原理', text:'Embedding模型将文本映射到一个高维数学空间（通常是768维或1536维）。在这个空间中，语义相近的文本距离近，语义不同的文本距离远。例如"治安处罚"和"行政处罚"的向量距离很近，而"治安处罚"和"天气预报"的向量距离很远。计算距离通常用余弦相似度（Cosine Similarity），值在-1到1之间，越接近1表示越相似。'},
+    {type:'example', title:'🌟 直观案例', text:'假设一个简化版3维Embedding空间：
+
+"盗窃" → [0.8, 0.2, 0.1]
+"偷窃" → [0.75, 0.25, 0.15] ← 和"盗窃"很近（意思相似）
+"抢劫" → [0.6, 0.5, 0.2] ← 比较近（相关但不完全相同）
+"天气预报" → [0.1, -0.8, 0.3] ← 很远（完全不相关）
+
+这就是为什么向量数据库能按"意思相近"搜索，而不是按关键词匹配。'},
+    {type:'h', title:'📊 常用Embedding模型', text:'①text2vec-large-chinese：国产开源，中文效果好，免费本地部署；②bge-large-zh：百度开源，中文能力强；③OpenAI text-embedding-ada-002：效果最好但需联网；④通义千问Embedding：阿里出品，可本地部署。你们内网环境建议用text2vec或bge系列。'},
+    {type:'related', terms:['向量数据库','RAG','Token','Chunking','召回']}
+  ]
+},
+
+'向量数据库': {
+  title: '向量数据库',
+  subtitle: 'Vector Database',
+  icon: '🗄️',
+  color: '#06b6d4',
+  brief: '专门存向量数字的数据库，支持"按意思相近"搜索，而不是按关键词搜索',
+  sections: [
+    {type:'h', title:'📖 什么是向量数据库', text:'向量数据库是专门为存储和检索向量数据而设计的数据库系统。传统数据库（如MySQL）用精确匹配或关键词搜索，而向量数据库用"语义相似度"搜索——它能找到"意思相近"的内容，即使关键词完全不同。'},
+    {type:'example', title:'🌟 关键词搜索 vs 向量搜索', text:'场景：知识库中有法规原文"公安机关办理治安案件的期限不得超过三十日"
+
+🔍 关键词搜索"办案时间多久"：找不到！（因为原文中没有"时间"和"多久"这两个词）
+
+🔍 向量搜索"办案时间多久"：能找到！（因为"时间多久"和"期限"的语义相近，向量距离近）
+
+这就是为什么RAG必须用向量数据库而不是传统数据库。'},
+    {type:'h', title:'📊 常用向量数据库对比', text:'①Milvus：开源，功能最全，支持十亿级向量，适合大规模生产环境，你们的系统可能用这个；②Chroma：轻量级，几行代码就能跑，适合快速原型验证；③pgvector：PostgreSQL的向量搜索扩展，好处是关系数据和向量数据存在同一个库里；④RAGFlow：不是数据库，是专门做知识召回的产品，内含向量数据库；⑤FAISS：Facebook开源的向量搜索库，不是一个完整的数据库，但搜索速度极快。'},
+    {type:'h', title:'💡 会议原话', text:'"走一范的那种向量知识"——指的就是用向量数据库存储和检索知识。"建立知识库的方法，成本最低的还是走向量"——确认向量数据库是性价比最高的方案。会议还提到"PostgreSQL加一个向量插件pgvector"——这是最简单的入门方案。'},
+    {type:'related', terms:['Embedding','RAG','Milvus','Chroma','PostgreSQL','RAGFlow','召回']}
+  ]
+},
+
+'Chunking': {
+  title: '切片/分块（Chunking）',
+  subtitle: '知识库入库前必须做的步骤',
+  icon: '✂️',
+  color: '#f59e0b',
+  brief: '把一篇长文档切成小段（如每段500字），方便向量化和检索',
+  sections: [
+    {type:'h', title:'📖 什么是Chunking', text:'Chunking（切片/分块）是将长文档按照一定策略切分成较短的文本片段的过程。因为Embedding模型有输入长度限制（通常512或8192个Token），而且太长的文本会"稀释"语义信息导致检索不准，所以必须在入库前进行切片。'},
+    {type:'h', title:'🔬 为什么切片质量决定检索质量', text:'切片的好坏直接影响RAG的效果。切得太长：语义被稀释，检索不到精准内容；切得太短：上下文丢失，回答不完整；切的位置不对：一句话被切断，变成碎片。会议中对此有非常详细的讨论。'},
+    {type:'quote', title:'💡 会议原话（核心难点）', text:'"切片实际上就是切片，就是你得把一个完整内容的段落切到一起，你不要把它切断了。就比方说法律第一条都没说完就切了，然后召回的知识是碎片的，或者有的时候就召不回来。"——这就是切片的核心难点：切的位置不对，检索质量就差。'},
+    {type:'h', title:'📐 常见切片策略', text:'①固定长度切：每500字切一段。最简单，但可能把一句话切成两半。适合没有结构的纯文本。
+②按段落/章节切：以换行符或标题为界。更合理，但需要文档有结构。适合法律条文、规章等有明确层次结构的文档。
+③递归切：先按大段落切，太长的再按句子切。兼顾结构和长度。
+④智能切：用模型判断语义边界，最准确但成本最高。适合重要的核心文档。
+
+公安卷宗建议：法规用按章节切，卷宗文书用递归切。'},
+    {type:'example', title:'🌟 切片案例', text:'原文（法律条文）：
+"第九十九条 公安机关办理治安案件的期限自受理之日起不得超过三十日；案情重大、复杂的，经上一级公安机关批准，可以延长三十日。为了查明案情进行鉴定的期间，不计入办理治安案件的期限。"
+
+❌ 糟糕的切片：在第20个字处切断
+"第九十九条 公安机关办理治安案件的期限自受理之日起不得超" | "过三十日；案情重大、复杂的..."
+→ 召回时语义破碎
+
+✅ 好的切片：保持完整语义
+"第九十九条 公安机关办理治安案件的期限自受理之日起不得超过三十日；案情重大、复杂的，经上一级公安机关批准，可以延长三十日。" | "为了查明案情进行鉴定的期间，不计入办理治安案件的期限。"'},
+    {type:'related', terms:['Embedding','RAG','Token','知识库','召回','RAGFlow']}
+  ]
+},
+
+'Agent': {
+  title: '智能体（Agent）',
+  subtitle: '不只会回答，还会行动',
+  icon: '🤖',
+  color: '#ec4899',
+  brief: '能自主思考和行动的大模型应用，不只是回答问题，还能调用工具、查数据库、执行操作',
+  sections: [
+    {type:'h', title:'📖 什么是Agent', text:'Agent（智能体）是基于大模型构建的自主系统，能够理解用户意图、制定执行计划、调用外部工具、并根据反馈调整策略。简单说：普通聊天机器人只能"回答问题"，而Agent能"完成任务"。它是大模型从"聊天工具"进化到"工作助手"的关键一步。'},
+    {type:'h', title:'🧩 Agent的四大组成', text:'Agent = 大模型（大脑）+ 知识库（记忆）+ 工具（手脚）+ 提示词（行为准则）
+
+①大模型：负责理解、推理和决策，是Agent的"大脑"
+②知识库：提供专业领域知识，避免幻觉，是Agent的"记忆"
+③工具：如OCR识别、数据库查询、API调用等，是Agent的"手脚"
+④提示词：定义Agent的行为规则、输出格式、思考链路，是Agent的"行为准则"'},
+    {type:'example', title:'🌟 公安场景Agent案例', text:'卷宗查错Agent的工作流程：
+①用户上传一份卷宗扫描件
+②Agent调用OCR工具 → 将扫描件转为文字
+③Agent调用知识库 → 查找相关法规条文
+④Agent比对卷宗内容与法规要求 → 发现日期逻辑错误
+⑤Agent调用另一个工具 → 查询同类案件的处罚标准
+⑥Agent生成审核报告 → 列出所有问题、修改建议、法律依据
+
+整个过程Agent自主决定每一步做什么，不需要人手动操作。'},
+    {type:'h', title:'📊 Agent的三代演进', text:'第一代：工作流Agent——用户预定义每一步，像流水线
+第二代：Skill Agent——把能力封装成技能，按需调用
+第三代：超级智能体——自主规划、自我反思、多步推理
+
+你们目前先用第一代（工作流），后续升级到第二代和第三代。'},
+    {type:'h', title:'💡 会议原话', text:'"写智能体"、"开发一个智能体去过它处理完的文档"——就是做Agent。"真正执行的时候，其实还是写Skill"——说明当前阶段Agent的核心是Skill封装。'},
+    {type:'related', terms:['Dify','Workflow','Skill','超级智能体','LLM','Prompt','知识库']}
+  ]
+},
+
+'Dify': {
+  title: 'Dify',
+  subtitle: '开源智能体开发平台',
+  icon: '🔧',
+  color: '#3b82f6',
+  brief: '开源的智能体开发平台，拖拽式配置，不需要写代码就能做AI应用',
+  sections: [
+    {type:'h', title:'📖 什么是Dify', text:'Dify是一个开源的大模型应用开发平台（LLMOps），让非程序员也能通过拖拽和配置的方式创建AI应用。它提供了知识库管理、智能体配置、工作流编排、应用发布等一站式功能。Dify于2023年开源，迅速成为全球最受欢迎的LLMOps平台之一，GitHub Star超过40万。'},
+    {type:'h', title:'🔧 Dify能做什么', text:'①配置知识库：上传文档→自动切片→向量化→入库，一站式完成
+②创建智能体：选模型+写提示词+挂知识库+加工具，可视化配置
+③设计工作流：拖拽节点串成流水线，定义Agent的执行逻辑
+④发布应用：生成网页链接或API接口，供其他人使用
+⑤管理多个应用：在同一个平台上管理所有智能体'},
+    {type:'h', title:'📊 Dify版本对比', text:'①开源社区版（Community）：免费，核心功能都有，可本地部署，适合你们
+②云服务版（Cloud）：免费额度+付费扩展，无需部署，但数据在云端
+③企业版（Enterprise）：付费，增加SSO、审计日志等企业功能
+
+你们用的是开源社区版，部署在应用服务器上。'},
+    {type:'example', title:'🌟 用Dify创建卷宗查错Agent的步骤', text:'1. 打开Dify网页 → http://10.0.1.100:80
+2. 点击"知识库" → 创建新知识库 → 上传法规文档
+3. 系统自动完成切片和向量化
+4. 点击"创建应用" → 选择"Agent"类型
+5. 选择模型：通义千问-Qwen2.5-7B
+6. 编写提示词：定义卷宗查错的规则
+7. 关联知识库：把第2步建的知识库挂上
+8. 添加工具：OCR、数据库查询等
+9. 测试对话 → 调整提示词 → 再测试
+10. 发布 → 生成网页链接给民警使用'},
+    {type:'h', title:'💡 会议原话', text:'"在这个Dify的或者别的智能体开发框架上"——Dify是你们的工作台。"百千万平台就是在Dify开源版基础上二次开发的"——你们部署的平台就是Dify的定制版。'},
+    {type:'quote', title:'📝 来源', text:'Dify由LangGenius公司开发，2023年4月开源。官方文档：https://docs.dify.ai/ 。GitHub仓库：https://github.com/langgenius/dify 。截至2025年，已有超过40万Star，是全球最活跃的开源AI应用开发平台。'},
+    {type:'related', terms:['Agent','Workflow','Skill','知识库','百千万平台','Docker','向量数据库']}
+  ]
+}
+});
+
+</script>
+<script>
+// 词汇详情数据 Part 2：技术术语
+window.GLOSSARY = window.GLOSSARY || {};
+
+Object.assign(window.GLOSSARY, {
+'Workflow': {
+  title: '工作流（Workflow）',
+  subtitle: '智能体的固定流水线',
+  icon: '🔄',
+  color: '#3b82f6',
+  brief: '把AI的执行步骤串成固定流水线，每一步做什么都是预先定义好的',
+  sections: [
+    {type:'h', title:'📖 什么是工作流', text:'工作流（Workflow）是智能体的一种实现方式，将AI的执行过程拆分为一系列预定义的步骤，按照固定顺序依次执行。每个步骤的输入、输出、处理逻辑都是明确设定的，就像工厂流水线一样。'},
+    {type:'example', title:'🌟 卷宗查错工作流案例', text:'第一步：接收卷宗扫描件 → 第二步：调用OCR识别文字 → 第三步：提取关键信息（姓名、日期、案由）→ 第四步：查询法规知识库 → 第五步：比对日期逻辑 → 第六步：比对强制措施期限 → 第七步：生成问题清单。每一步都是固定的，不可能跳过或改变顺序。'},
+    {type:'h', title:'⚖️ 优缺点', text:'优点：①可控性强——每一步都明确知道在干什么；②执行快速——没有决策开销；③简单可靠——不容易出错；④适合流程固定的任务。
+
+缺点：①不够灵活——遇到预设之外的情况就卡住；②维护成本——需求变化时要重新编排整个流程；③规模问题——流程多了难以管理。'},
+    {type:'h', title:'💡 会议原话', text:'"用户定义工作流的方式实现智能体"——工作流型智能体。"苏州公安做了600多个智能体"——都是工作流型，说明工作流是目前最成熟的落地方式。'},
+    {type:'related', terms:['Agent','Skill','超级智能体','Dify']}
+  ]
+},
+
+'Skill': {
+  title: 'Skill（技能）',
+  subtitle: '智能体的可复用能力单元',
+  icon: '🎯',
+  color: '#8b5cf6',
+  brief: '把AI的能力封装成一个个技能，智能体根据用户请求自动选择调用哪个技能',
+  sections: [
+    {type:'h', title:'📖 什么是Skill', text:'Skill（技能）是将AI的某个能力封装成独立、可复用的模块。每个Skill专注于完成一项特定任务（如"日期逻辑检查"、"法规检索"、"文书格式校验"），智能体根据用户的请求自动判断需要调用哪些Skill、以什么顺序调用。'},
+    {type:'example', title:'🌟 Skill vs 工作流对比', text:'工作流方式：用户上传卷宗 → 固定执行OCR→提取→查询→比对→输出
+
+Skill方式：用户说"帮我检查这份卷宗" → 智能体自动判断需要：
+①调用OCR-Skill（识别文字）
+②调用日期检查-Skill（检查日期逻辑）
+③调用法规查询-Skill（查询相关法规）
+④调用格式校验-Skill（检查文书格式）
+
+如果用户只说"帮我查一下这个案件的法规依据"，智能体只调用法规查询-Skill，不需要走完整流程。'},
+    {type:'h', title:'🔧 Skill的设计原则', text:'①单一职责：每个Skill只做一件事，做到极致
+②接口清晰：输入输出格式明确，方便其他Skill调用
+③可组合：多个Skill可以灵活组合完成复杂任务
+④可复用：同一个Skill可以被不同的智能体调用
+
+例如："日期逻辑检查"Skill可以被卷宗查错Agent调用，也可以被案件质量评估Agent调用。'},
+    {type:'h', title:'💡 会议原话', text:'"真正执行的时候，其实还是写Skill，用Skill的方式去解决，这是目前比较好的落地形式"——说明Skill是当前推荐的最佳实践。"你到时候一边用一边自己可以改提示词的编排"——Skill的提示词是可以随时调整的。'},
+    {type:'related', terms:['Agent','Workflow','超级智能体','Dify','Prompt']}
+  ]
+},
+
+'超级智能体': {
+  title: '超级智能体（Super Agent）',
+  subtitle: '自主规划+自动执行',
+  icon: '🦾',
+  color: '#ef4444',
+  brief: '基于Skill的自主规划执行型智能体，不仅能选工具，还能自动规划步骤、自我反思',
+  sections: [
+    {type:'h', title:'📖 什么是超级智能体', text:'超级智能体是Agent的最高级形态。它不仅能选择调用哪个工具/Skill，还能自主规划执行步骤、进行多步推理、自我反思和修正。就像一个能独立完成复杂任务的实习生——你只需要告诉他目标，他自己想办法完成。'},
+    {type:'h', title:'📊 三代Agent对比', text:'第一代-工作流Agent：固定流水线，不能变通。像工厂工人，只做固定工序。
+第二代-Skill Agent：按需选工具，灵活组合。像有工具箱的技工，按需取用。
+第三代-超级智能体：自主规划+反思+调工具。像独立解决问题的工程师。
+
+核心区别：工作流是"人告诉AI怎么做"，Skill是"AI自己选工具做"，超级智能体是"AI自己想方案+选工具+做+反思"。'},
+    {type:'example', title:'🌟 超级智能体案例', text:'任务：审核一份复杂案件卷宗
+
+超级智能体自主规划：
+①先扫描卷宗目录，判断案件类型和复杂度
+②发现是刑事案件，决定先检查强制措施期限
+③发现拘留期限可能超期，深入查找相关法律条文
+④确认确实超期，标记问题
+⑤自我反思：有没有遗漏？再检查一遍文书完整性
+⑥发现缺少一份告知书，也标记出来
+⑦生成完整审核报告
+
+整个过程没有人干预，Agent自己规划步骤、发现线索、自我检查。'},
+    {type:'h', title:'💡 会议原话', text:'"新一代的智能体是通过Skill的方式交互来形成的"——超级智能体是基于Skill交互的。"现在其实大家就把它叫超级智能体"——这是目前最新的概念。'},
+    {type:'related', terms:['Agent','Skill','Workflow','Dify']}
+  ]
+},
+
+'CherryStudio': {
+  title: 'Cherry Studio',
+  subtitle: '大模型的本地聊天前端',
+  icon: '💬',
+  color: '#06b6d4',
+  brief: '本地安装的聊天软件，连接内网大模型，像用微信一样跟AI对话',
+  sections: [
+    {type:'h', title:'📖 什么是Cherry Studio', text:'Cherry Studio是一款本地安装的大模型对话客户端软件，支持连接各种大模型API（包括本地部署的模型）。它的界面类似ChatGPT网页版，但可以配置连接到你们内网的模型服务，不需要连接互联网。'},
+    {type:'h', title:'🔧 如何配置使用', text:'1. 在Windows电脑上安装Cherry Studio（下载安装包）
+2. 打开软件 → 设置 → 模型配置
+3. 填入：API地址（如http://10.0.1.100:8000/v1）、模型名称（如qwen2.5-7b）、API Key
+4. 保存 → 开始对话
+
+配置完成后，在聊天框输入问题就能得到内网大模型的回答。'},
+    {type:'h', title:'⚠️ 注意事项', text:'①需要确认市局是否允许安装——找信息中心确认白名单
+②API地址和Key由工程师提供
+③不需要联网，所有数据在内网流转
+④支持多轮对话、历史记录、导出等功能'},
+    {type:'h', title:'💡 会议原话', text:'"装一个Cherry Studio，它就是一个大模型的交互前端"——就是聊天界面。"把模型的token配置给到您，配到Cherry Studio里就可以"——配置很简单。"你把那个名字发给我，我来判断一下"——等工程师确认是否允许安装。'},
+    {type:'related', terms:['LLM','API','Token','Prompt']}
+  ]
+},
+
+'Prompt': {
+  title: '提示词（Prompt）',
+  subtitle: '控制AI行为的指令',
+  icon: '📝',
+  color: '#f59e0b',
+  brief: '你告诉大模型"怎么回答问题"的指令文字，是你日常最核心的工作内容',
+  sections: [
+    {type:'h', title:'📖 什么是Prompt', text:'Prompt（提示词）是用户给大模型的输入指令，用来引导模型生成符合预期的回答。写好提示词是大模型应用中最核心的技能，也是你日常最频繁的工作。好的提示词能让模型输出精准、规范、可用的结果，差的提示词会导致模型回答跑偏、格式混乱、甚至产生幻觉。'},
+    {type:'h', title:'📐 提示词的结构', text:'一个完整的提示词通常包含：
+①角色定义："你是公安卷宗审核助手"
+②任务描述："请按照以下规则检查卷宗"
+③具体规则："1. 检查日期逻辑 2. 检查姓名一致..."④输出格式："输出格式：问题描述|涉及文书|修改建议|法律依据"
+⑤约束条件："如果不确定，回答'需要人工复核'，不要编造"
+⑥示例（Few-shot）：给出1-2个输入输出示例'},
+    {type:'example', title:'🌟 卷宗查错提示词示例', text:'你是公安卷宗审核助手，专门检查行政案件卷宗的逻辑和程序问题。
+
+请按照以下规则逐项检查：
+1. 日期逻辑：传唤时间 ≤ 拘留时间 ≤ 逮捕时间 ≤ 起诉时间
+2. 姓名一致性：同一嫌疑人姓名在所有文书中应完全相同
+3. 强制措施期限：拘留不得超过法定期限（治安30日，刑事37日）
+4. 处罚与事实匹配：处罚种类和幅度应与违法事实对应
+5. 文书完整性：必需的文书是否齐全
+6. 法律引用准确性：引用的法律条文是否真实存在且适用
+
+输出格式：
+| 序号 | 问题描述 | 涉及文书 | 修改建议 | 法律依据 |
+
+如果某项检查未发现问题，标注"✅ 已检查，无异常"。
+如果不确定，标注"⚠️ 需要人工复核"并说明原因。'},
+    {type:'h', title:'🔧 提示词调优技巧', text:'①从简单开始，逐步添加规则——不要一上来就写50条规则
+②加入Few-shot示例——给模型看1-2个正确的输出样本
+③明确"不知道"的边界——告诉模型什么情况下该说"不确定"
+④迭代测试——改一条规则→测试→再改→再测试
+⑤记录版本——每次修改都记录修改内容和效果，方便回溯'},
+    {type:'h', title:'💡 会议原话', text:'"你到时候一边用一边自己可以改提示词的编排"——提示词是你随时可以调整的。"他检测的内容你来配"——你负责维护检测规则（提示词），工程师负责搭框架。'},
+    {type:'related', terms:['LLM','Agent','Skill','Token','知识库']}
+  ]
+},
+
+'Token': {
+  title: 'Token',
+  subtitle: 'AI世界的计价单位和处理单位',
+  icon: '📦',
+  color: '#22c55e',
+  brief: '大模型处理文字的最小单位，1个汉字约等于1个Token',
+  sections: [
+    {type:'h', title:'📖 什么是Token', text:'Token是大模型处理文本的最小单位。中文约1个汉字=1个Token，英文约1个单词=0.75个Token。模型不是逐字处理文本的，而是先把文本切分成Token，然后对Token进行编码和处理。'},
+    {type:'h', title:'📏 Token与长度的关系', text:'常见换算：
+• 1个汉字 ≈ 1 Token
+• 1个英文单词 ≈ 0.75 Token
+• 1页A4文档（约500字）≈ 500 Token
+• 100页卷宗（约3万字）≈ 3万 Token
+• 128K上下文窗口 ≈ 约10万字'},
+    {type:'h', title:'⚠️ Token为什么重要', text:'①成本：每次对话消耗Token，Token越多成本越高
+②速度：Token越多处理越慢，响应时间越长
+③窗口限制：模型有上下文窗口限制（如128K Token），超过就"记不住"前面的内容
+④卷宗很长：一份100页的卷宗约3万Token，加上知识库检索结果和提示词，很容易接近窗口上限'},
+    {type:'example', title:'🌟 公安场景Token计算', text:'场景：民警上传一份80页的卷宗（约2.4万Token），问"这个案件的强制措施有没有超期？"
+
+Token消耗估算：
+• 系统提示词：约2000 Token
+• 知识库检索结果：约3000 Token
+• 卷宗内容：约24000 Token
+• 用户问题：约50 Token
+• 模型回答：约1000 Token
+• 总计：约30000 Token
+
+如果模型窗口是128K（约10万Token），完全够用。但如果同时处理多份卷宗，就需要注意了。'},
+    {type:'related', terms:['LLM','上下文窗口','Embedding','Chunking','量化']}
+  ]
+},
+
+'Transformer': {
+  title: 'Transformer',
+  subtitle: '大模型的基石架构',
+  icon: '⚡',
+  color: '#8b5cf6',
+  brief: '2017年Google提出的架构，所有现代大模型的基础',
+  sections: [
+    {type:'h', title:'📖 什么是Transformer', text:'Transformer是2017年由Google团队在论文《Attention Is All You Need》中提出的一种神经网络架构。它的核心创新是"自注意力机制"（Self-Attention），能让模型在处理每个词时，自动关注文本中所有其他词的关联程度。所有现代大模型（GPT、Qwen、DeepSeek、ChatGLM）都基于Transformer构建。'},
+    {type:'h', title:'🔬 自注意力机制', text:'自注意力机制让模型理解词语之间的关联。例如："小明养了一只猫，他很喜欢它"——模型通过注意力机制知道"它"指的是"猫"而不是"小明"。这个机制不需要人工标注，模型在训练过程中自动学会。'},
+    {type:'timeline', title:'📅 发展时间线', text:'2017年：Google发表Transformer论文
+2018年：BERT（基于Transformer Encoder）
+2018年：GPT-1（基于Transformer Decoder）
+2020年：GPT-3（1750亿参数）
+2022年：ChatGPT发布
+2023年：开源大模型爆发（LLaMA、Qwen、ChatGLM）
+2024年：DeepSeek、Qwen2.5等国产大模型成熟'},
+    {type:'quote', title:'📝 来源', text:'论文：《Attention Is All You Need》（2017），作者：Ashish Vaswani等，Google Brain和Google Research团队。这篇论文是AI领域被引用次数最多的论文之一，彻底改变了自然语言处理的方向。'},
+    {type:'related', terms:['Attention','LLM','预训练','深度学习','神经网络']}
+  ]
+},
+
+'Attention': {
+  title: '注意力机制（Attention）',
+  subtitle: 'Transformer的核心创新',
+  icon: '🎯',
+  color: '#ec4899',
+  brief: '让模型在处理每个词时，自动"关注"最相关的其他词',
+  sections: [
+    {type:'h', title:'📖 什么是注意力机制', text:'注意力机制（Attention Mechanism）是让模型在处理某个输入元素时，能够自动计算其他元素与其的关联程度，并据此分配不同的"注意力"权重。这就像人类阅读时，理解一个词语会自然联想到上下文中相关的其他词语。'},
+    {type:'example', title:'🌟 直观理解', text:'句子："公安机关对犯罪嫌疑人执行拘留后，应当在二十四小时以内通知被拘留人的家属"
+
+当模型处理"通知"这个词时，注意力机制让它"注意到"：
+• "公安机关"——谁通知？（主语）
+• "拘留后"——什么时候通知？（时间条件）
+• "二十四小时以内"——多久之内？（时间限制）
+• "被拘留人的家属"——通知谁？（宾语）
+
+这样模型就能理解整句话的完整含义。'},
+    {type:'h', title:'🔬 自注意力 vs 交叉注意力', text:'①自注意力（Self-Attention）：在同一个序列内部计算注意力，用于理解文本内部关系
+②交叉注意力（Cross-Attention）：在两个不同序列之间计算注意力，用于将一种信息与另一种信息关联
+
+大模型主要使用自注意力。RAG中的检索结果与问题的关联可以用交叉注意力。'},
+    {type:'related', terms:['Transformer','LLM','深度学习','神经网络']}
+  ]
+},
+
+'GPU': {
+  title: 'GPU',
+  subtitle: 'Graphics Processing Unit / 显卡',
+  icon: '🎮',
+  color: '#22c55e',
+  brief: '大模型推理和训练必不可少的硬件，天生适合做大量并行计算',
+  sections: [
+    {type:'h', title:'📖 什么是GPU', text:'GPU（Graphics Processing Unit，图形处理器/显卡）原本是用于渲染图形的芯片，因为其天生适合大规模并行计算，后来被广泛用于深度学习。大模型的训练和推理都需要GPU，没有GPU就无法运行大模型。'},
+    {type:'h', title:'🔬 为什么大模型需要GPU', text:'大模型的计算本质上是大量的矩阵乘法运算。CPU有少量核心（4-16个），擅长复杂逻辑运算；GPU有数千个小核心，擅长同时做大量简单的数学运算。矩阵乘法恰好可以拆分成大量独立的简单运算，GPU可以数千个核心同时计算，速度比CPU快几十到几百倍。'},
+    {type:'h', title:'📊 常见GPU型号', text:'消费级（可用但显存有限）：
+• RTX 4090：24GB显存，可跑7B量化模型
+• RTX 3090：24GB显存，同上
+
+服务器级（专业用途）：
+• A100：40/80GB显存，行业标准
+• A800：80GB显存，A100的出口限制版
+• H100：80GB显存，最新一代
+
+会议提到你们的GPU服务器上可能有A100或类似级别显卡。'},
+    {type:'h', title:'💡 会议原话', text:'"7B的可以跑在单卡上"——7B模型单张GPU即可。"72B要四张卡"——72B模型需要4张高端GPU。'},
+    {type:'related', terms:['CUDA','LLM','量化','推理','Docker']}
+  ]
+},
+
+'CUDA': {
+  title: 'CUDA',
+  subtitle: 'NVIDIA GPU计算框架',
+  icon: '⚙️',
+  color: '#22c55e',
+  brief: 'NVIDIA的GPU并行计算框架，大模型运行的必备基础软件',
+  sections: [
+    {type:'h', title:'📖 什么是CUDA', text:'CUDA（Compute Unified Device Architecture）是NVIDIA推出的并行计算平台和编程模型。它让开发者能够利用GPU的强大计算能力进行通用计算（不只是图形渲染）。几乎所有深度学习框架（PyTorch、TensorFlow）都基于CUDA运行。'},
+    {type:'h', title:'🔧 CUDA在AI系统中的角色', text:'运行大模型的软件栈：
+硬件GPU → NVIDIA驱动 → CUDA → 深度学习框架（PyTorch）→ 模型推理引擎（vLLM/Ollama）→ 大模型服务
+
+如果CUDA没装好，GPU就无法被大模型使用，模型会退回到CPU运行，速度慢几十倍。'},
+    {type:'h', title:'⚠️ 部署注意事项', text:'①NVIDIA驱动和CUDA版本必须兼容
+②Docker中使用GPU需要安装NVIDIA Container Toolkit
+③不同的大模型推理框架对CUDA版本有要求
+④检查命令：<code>nvidia-smi</code>看驱动版本，<code>nvcc --version</code>看CUDA版本'},
+    {type:'related', terms:['GPU','Docker','LLM','推理']}
+  ]
+}
+});
+
+</script>
+<script>
+// 词汇详情数据 Part 3：基础设施与扩展术语
+window.GLOSSARY = window.GLOSSARY || {};
+
+Object.assign(window.GLOSSARY, {
+'Docker': {
+  title: 'Docker',
+  subtitle: '应用打包的"集装箱"',
+  icon: '🐳',
+  color: '#06b6d4',
+  brief: '把程序和运行环境打包成一个"集装箱"，搬到哪都能运行',
+  sections: [
+    {type:'h', title:'📖 什么是Docker', text:'Docker是一种容器化技术，把应用程序及其所有依赖（库、配置、环境变量等）打包成一个标准化的单元——容器。这个容器可以在任何安装了Docker的机器上运行，完全不需要额外配置。就像集装箱——不管里面装的是什么，运输工具只需要能搬集装箱就行。'},
+    {type:'example', title:'🌟 为什么Docker对你们很重要', text:'大模型系统包含很多组件：大模型服务、向量数据库、Dify平台、OCR引擎、PostgreSQL数据库……每个组件的环境要求不同（Python版本、系统库、配置文件），手动安装配置可能要一整天，而且容易出错。
+
+用Docker：每个组件打包成一个容器，一条命令<code>docker-compose up -d</code>就能启动整个系统。'},
+    {type:'h', title:'🔧 你需要会的Docker命令', text:'<code>docker ps</code>——查看正在运行的容器
+<code>docker ps -a</code>——查看所有容器（含已停止的）
+<code>docker logs 容器名</code>——查看某个容器的日志（排错必用）
+<code>docker restart 容器名</code>——重启某个容器
+<code>docker stop 容器名</code>——停止某个容器
+<code>docker start 容器名</code>——启动某个容器
+<code>docker-compose up -d</code>——启动整个系统
+<code>docker-compose down</code>——停止整个系统'},
+    {type:'h', title:'💡 关键概念', text:'①镜像（Image）：容器的模板，类似"安装包"
+②容器（Container）：镜像运行起来的实例，类似"正在运行的程序"
+③Docker Compose：编排多个容器的工具，一个配置文件定义所有容器怎么启动
+④Volume：容器的数据持久化机制，容器删了数据不会丢'},
+    {type:'related', terms:['SSH','Ubuntu','CUDA','Dify','GPU']}
+  ]
+},
+
+'SSH': {
+  title: 'SSH',
+  subtitle: '远程登录服务器的协议',
+  icon: '🔑',
+  color: '#f59e0b',
+  brief: '让你在自己电脑上操作机房里服务器的方式',
+  sections: [
+    {type:'h', title:'📖 什么是SSH', text:'SSH（Secure Shell）是一种加密的网络协议，用于安全地远程登录服务器。通过SSH，你可以在自己的Windows电脑上打开终端，远程操控机房里的Linux服务器，就像坐在服务器前操作一样。'},
+    {type:'h', title:'🔧 Windows上使用SSH', text:'方法1：Windows自带终端
+Win+R → 输入cmd → 输入：<code>ssh 用户名@服务器IP</code>
+
+方法2：MobaXterm（推荐，更友好）
+下载安装免费版 → 新建SSH会话 → 填入IP和用户名 → 连接
+
+方法3：Windows Terminal + PowerShell
+打开Windows Terminal → 输入ssh命令'},
+    {type:'h', title:'⚠️ 需要提前准备的信息', text:'向工程师索取：
+• 服务器IP地址（如10.0.1.100）
+• 用户名（如admin或root）
+• 密码
+• SSH端口号（默认22，可能有改动）
+• 是否需要VPN才能访问内网'},
+    {type:'related', terms:['Ubuntu','Docker','GPU','Linux命令']}
+  ]
+},
+
+'Ubuntu': {
+  title: 'Ubuntu',
+  subtitle: '最流行的Linux服务器操作系统',
+  icon: '🐧',
+  color: '#f97316',
+  brief: '最流行的Linux发行版，你们的应用服务器就运行Ubuntu',
+  sections: [
+    {type:'h', title:'📖 什么是Ubuntu', text:'Ubuntu是基于Debian的Linux发行版，由Canonical公司维护，是全球使用最广泛的服务器操作系统之一。你们的应用服务器运行的就是Ubuntu系统。与Windows不同，Ubuntu主要通过命令行操作，没有图形界面（服务器版）。'},
+    {type:'h', title:'📐 Ubuntu vs Windows', text:'相同点：都是操作系统，都能运行程序
+不同点：
+• Ubuntu免费开源，Windows收费
+• Ubuntu主要用命令行，Windows用图形界面
+• Ubuntu更安全稳定，适合做服务器
+• Ubuntu对硬件要求更低
+• Docker在Ubuntu上运行最流畅'},
+    {type:'h', title:'💡 会议原话', text:'"X86虚拟机"、"应用服务器Ubuntu x86"——确认了你们的应用服务器是x86架构的Ubuntu，不是ARM架构的信创环境，这意味着Docker镜像可以直接使用，无需重新编译。'},
+    {type:'related', terms:['SSH','Docker','信创','CUDA']}
+  ]
+},
+
+'知识库': {
+  title: '知识库（Knowledge Base）',
+  subtitle: 'AI的知识来源',
+  icon: '📚',
+  color: '#22c55e',
+  brief: '法规/案例/卷宗的结构化存储，供AI检索使用',
+  sections: [
+    {type:'h', title:'📖 什么是知识库', text:'知识库（Knowledge Base）是RAG系统的核心数据源，用于存储结构化的专业知识。在你们的项目中，知识库主要包括：法律法规、案件案例、卷宗模板、办案程序规范等文档。这些文档经过预处理（OCR→切片→向量化）后存入向量数据库，供智能体检索使用。'},
+    {type:'h', title:'🔄 知识库建设流程', text:'①收集原始文档（法规、案例、规范等）
+②OCR识别（如果是扫描件）
+③数据清洗（去除无关内容、统一格式）
+④切片分块（按语义完整性切分）
+⑤向量化（用Embedding模型转为向量）
+⑥入库（存入向量数据库）
+⑦测试检索质量（用典型问题测试召回效果）
+⑧迭代优化（调整切片策略、补充文档）'},
+    {type:'h', title:'⚠️ 公安知识库的特殊要求', text:'①数据安全：所有数据在内网，不能出网
+②脱敏处理：测试数据必须去除真实身份信息
+③版本管理：法规更新后知识库要及时更新
+④质量验证：每次更新后要验证检索准确性
+⑤分类管理：不同类型的知识（法规/案例/规范）分库存放'},
+    {type:'h', title:'💡 会议原话', text:'"知识库不光是法规，还有案例"、"建立知识库的方法，成本最低的还是走向量"——知识库的内容要丰富，技术方案选向量数据库。'},
+    {type:'related', terms:['RAG','向量数据库','Embedding','Chunking','召回','OCR']}
+  ]
+},
+
+'OCR': {
+  title: 'OCR（光学字符识别）',
+  subtitle: '把扫描件变成文字',
+  icon: '📄',
+  color: '#06b6d4',
+  brief: '将图片/扫描件中的文字识别为可编辑的电子文本',
+  sections: [
+    {type:'h', title:'📖 什么是OCR', text:'OCR（Optical Character Recognition，光学字符识别）是将图片中的文字转换为可编辑电子文本的技术。公安场景中，大量卷宗是纸质扫描件（PDF/图片），必须先用OCR识别成文字，才能被AI处理。'},
+    {type:'h', title:'🔧 常用OCR方案', text:'①PaddleOCR：百度开源，中文识别效果好，免费本地部署，推荐使用
+②Tesseract：老牌开源OCR，英文好但中文一般
+③商用API：百度/腾讯/阿里云OCR，精度高但需联网和付费
+④Dify内置OCR：Dify本身有文档解析功能'},
+    {type:'example', title:'🌟 公安场景OCR应用', text:'一份治安案件卷宗包含10页扫描件：
+1. 受案登记表（手写+打印）
+2. 传唤证（打印件）
+3. 询问笔录（手写）
+4. 处罚决定书（打印件）
+5. 送达回执（手写签名）
+
+OCR处理流程：扫描件 → 图像预处理（去噪、矫正）→ 文字识别 → 后处理（纠错）→ 结构化输出'},
+    {type:'h', title:'⚠️ OCR的难点', text:'①手写体识别准确率低于印刷体
+②印章遮挡区域的文字难以识别
+③表格和格式识别需要额外处理
+④识别后需要人工校对关键信息'},
+    {type:'related', terms:['知识库','PaddleOCR','Chunking','RAG']}
+  ]
+},
+
+'API': {
+  title: 'API',
+  subtitle: '程序之间对话的接口',
+  icon: '🔌',
+  color: '#8b5cf6',
+  brief: '程序之间对话的接口约定，大模型通过API对外提供服务',
+  sections: [
+    {type:'h', title:'📖 什么是API', text:'API（Application Programming Interface，应用编程接口）是软件系统之间交互的约定。简单说，API就是一个"服务窗口"——你按照规定格式提交请求，系统返回结果。大模型通过API对外提供服务：你的聊天软件（Cherry Studio）通过API调用大模型，智能体通过API调用OCR等工具。'},
+    {type:'example', title:'🌟 大模型API调用示例', text:'你问Cherry Studio"治安案件期限多久"：
+
+1. Cherry Studio发送API请求：
+POST http://10.0.1.100:8000/v1/chat/completions
+{"model":"qwen2.5-7b","messages":[{"role":"user","content":"治安案件期限多久"}]}
+
+2. 大模型服务器处理请求，返回API响应：
+{"choices":[{"message":{"content":"根据《治安管理处罚法》..."}}]}
+
+3. Cherry Studio把回答显示给你'},
+    {type:'related', terms:['CherryStudio','Token','LLM','Agent']}
+  ]
+},
+
+'预训练': {
+  title: '预训练（Pre-training）',
+  subtitle: '大模型的"通识教育"阶段',
+  icon: '🎓',
+  color: '#3b82f6',
+  brief: '用海量数据训练模型的"通识教育"阶段，极其昂贵',
+  sections: [
+    {type:'h', title:'📖 什么是预训练', text:'预训练是用海量数据（万亿级Token）训练大模型的过程，让模型学会语言的通用规律和世界知识。这一步极其昂贵（几百万到几千万美元），需要数千张GPU运行数周甚至数月。预训练完成后，模型就像一个"读了全人类所有书的超级毕业生"——什么都懂一点，但不精通任何专业。'},
+    {type:'h', title:'📊 预训练的数据来源', text:'通用大模型的训练数据通常包括：
+• 网页文本（Common Crawl等）
+• 书籍
+• 百科全书（维基百科等）
+• 代码库（GitHub等）
+• 论文
+• 新闻
+
+Qwen2.5的训练数据超过18万亿Token。'},
+    {type:'h', title:'💡 预训练 vs 微调', text:'预训练：读万卷书，学通识 → 成本极高，大厂做
+微调：去公安大学进修，学专业 → 成本较低，你可以做
+
+你们不需要做预训练（用现成的模型），但可能需要做微调（用公安数据训练专业能力）。'},
+    {type:'related', terms:['FineTuning','LLM','Token','GPU','深度学习']}
+  ]
+},
+
+'FineTuning': {
+  title: '微调（Fine-tuning）',
+  subtitle: '大模型的"专业进修"',
+  icon: '🔬',
+  color: '#8b5cf6',
+  brief: '用特定领域的数据再训练模型，让它在专业领域表现更好',
+  sections: [
+    {type:'h', title:'📖 什么是微调', text:'微调是在预训练模型的基础上，用特定领域的专业数据继续训练，让模型在目标领域表现更好。就像一个法学毕业生通过了司法考试（预训练），再去公安大学进修公安业务（微调）。'},
+    {type:'h', title:'📊 微调的方式', text:'①全量微调：训练模型的所有参数，效果最好但成本高
+②LoRA/QLoRA：只训练少量额外参数，成本低效果好，是目前主流方式
+③指令微调：用"指令-回答"对训练，让模型学会按指令格式输出
+
+你们如果需要微调，推荐LoRA方式，单张GPU即可完成。'},
+    {type:'example', title:'🌟 公安场景微调案例', text:'目标：让通义千问更好理解公安卷宗
+
+微调数据：收集500份人工标注的卷宗审核案例（问题→正确审核结果）
+微调方法：QLoRA，4bit量化微调
+硬件需求：单张RTX 4090即可
+训练时间：约2-4小时
+预期效果：模型对卷宗术语和审核逻辑的理解显著提升'},
+    {type:'related', terms:['预训练','LLM','GPU','量化','深度学习']}
+  ]
+},
+
+'量化': {
+  title: '量化（Quantization）',
+  subtitle: '压缩模型以降低硬件需求',
+  icon: '📏',
+  color: '#f59e0b',
+  brief: '压缩模型精度，用更少的显存运行大模型',
+  sections: [
+    {type:'h', title:'📖 什么是量化', text:'量化是将模型参数从高精度（如16bit浮点数）压缩到低精度（如4bit或8bit整数）的技术。这能大幅减少模型的显存占用和计算量，使大模型能在有限的GPU上运行。例如，72B模型在FP16精度下需要约144GB显存，量化到4bit后只需约36GB。'},
+    {type:'h', title:'📊 量化等级对比', text:'FP16（16位浮点）：原始精度，效果最好，显存需求最大
+INT8（8位整数量化）：显存减半，效果损失很小
+INT4（4位整数量化）：显存降到1/4，效果损失可接受
+
+推荐：7B模型用INT4量化后约4GB显存，单张消费级GPU即可运行。72B模型INT4量化后约36GB显存，需要2-4张专业GPU。'},
+    {type:'h', title:'💡 会议原话', text:'"7B的可以跑在单卡上"——7B模型经过量化后可以在单张GPU上运行。'},
+    {type:'related', terms:['LLM','GPU','Token','推理','预训练']}
+  ]
+},
+
+'上下文窗口': {
+  title: '上下文窗口（Context Window）',
+  subtitle: '模型一次能"记住"的文字长度',
+  icon: '🪟',
+  color: '#ec4899',
+  brief: '模型一次能处理的最大文字长度，超过就"记不住"前面的内容',
+  sections: [
+    {type:'h', title:'📖 什么是上下文窗口', text:'上下文窗口（Context Window）是大模型一次能处理的最大Token数量。模型只能"看到"窗口内的文字，超出窗口的内容会被遗忘。例如，如果窗口是128K Token（约10万字），一份12万字的文档就无法一次性完整处理。'},
+    {type:'h', title:'📊 常见模型的上下文窗口', text:'Qwen2.5-7B：128K Token（约10万字）
+Qwen2.5-72B：128K Token
+GPT-4o：128K Token
+Claude 3.5：200K Token
+DeepSeek-V3：128K Token
+
+对于公安卷宗：单份卷宗通常在3万字以内，128K窗口完全够用。但如果要同时处理多份卷宗或很长的法规文本，就需要注意窗口限制。'},
+    {type:'example', title:'🌟 窗口限制的影响', text:'场景：一份200页的案件材料（约6万Token），加上提示词和知识库检索结果（约1万Token），总计7万Token。在128K窗口内没问题。
+
+但如果同时上传3份这样的材料，就需要18万Token，超出128K窗口限制。解决方案：①只传关键部分；②分批处理；③使用Chunking+RAG，不需要把全部内容放进窗口。'},
+    {type:'related', terms:['Token','LLM','Chunking','RAG']}
+  ]
+},
+
+'信创': {
+  title: '信创（信息技术应用创新）',
+  subtitle: '国产软硬件替代要求',
+  icon: '🔒',
+  color: '#ef4444',
+  brief: '用国产软硬件替代国外产品的政策要求，影响你们的IT架构选择',
+  sections: [
+    {type:'h', title:'📖 什么是信创', text:'信创（信息技术应用创新）是中国推动信息技术领域自主可控的国家战略，核心要求是在关键信息基础设施中使用国产软硬件替代国外产品。在公安系统中，信创要求尤其严格。'},
+    {type:'h', title:'📊 信创替代对照表', text:'类别 | 传统方案 | 信创替代
+操作系统 | Windows/Ubuntu | 麒麟/统信UOS
+数据库 | MySQL/PostgreSQL | 达梦/TDSQL(腾讯)/OceanBase
+CPU | Intel/AMD (x86) | 鲲鹏/飞腾 (ARM)
+中间件 | Tomcat/WebLogic | 东方通/宝兰德
+办公软件 | Microsoft Office | WPS
+服务器 | Dell/HP | 华为/浪潮'},
+    {type:'h', title:'💡 对你们项目的影响', text:'好消息：会议确认应用服务器是x86架构Ubuntu，不是ARM信创环境，Docker镜像可以正常使用。
+
+需要注意：数据库方面，如果可以用PostgreSQL+pgvector就最简单；如果必须用信创数据库（如TDSQL/达梦），需要确认向量搜索功能的兼容性。'},
+    {type:'related', terms:['Ubuntu','Docker','PostgreSQL','GPU']}
+  ]
+},
+
+'Milvus': {
+  title: 'Milvus',
+  subtitle: '开源向量数据库',
+  icon: '🗄️',
+  color: '#06b6d4',
+  brief: '功能最全的开源向量数据库，适合大规模生产环境',
+  sections: [
+    {type:'h', title:'📖 什么是Milvus', text:'Milvus是全球最受欢迎的开源向量数据库之一，由Zilliz公司开发，专门为AI应用设计。它支持十亿级向量的高效检索，功能最全、性能最强，是Dify默认支持的向量数据库之一。'},
+    {type:'h', title:'📊 Milvus vs 其他方案', text:'Milvus：功能最全，大规模生产首选，但部署稍复杂
+Chroma：轻量简单，适合原型验证
+pgvector：PostgreSQL扩展，关系数据+向量数据统一管理
+FAISS：Facebook开源的搜索库，速度极快但不是完整数据库'},
+    {type:'related', terms:['向量数据库','RAG','Embedding','Dify','Chroma','PostgreSQL']}
+  ]
+},
+
+'Chroma': {
+  title: 'Chroma',
+  subtitle: '轻量级向量数据库',
+  icon: '📂',
+  color: '#22c55e',
+  brief: '轻量简单的向量数据库，几行代码就能跑，适合快速验证',
+  sections: [
+    {type:'h', title:'📖 什么是Chroma', text:'Chroma是一个开源的轻量级向量数据库，设计理念是"简单到不需要学习"。几行代码就能启动，自带Embedding功能，不需要额外部署Embedding模型。适合快速原型验证和小规模应用。'},
+    {type:'related', terms:['向量数据库','Milvus','RAG','Embedding','Dify']}
+  ]
+},
+
+'PostgreSQL': {
+  title: 'PostgreSQL',
+  subtitle: '最强大的开源关系数据库',
+  icon: '🐘',
+  color: '#3b82f6',
+  brief: '开源关系数据库，Dify的后端存储，加pgvector扩展可做向量搜索',
+  sections: [
+    {type:'h', title:'📖 什么是PostgreSQL', text:'PostgreSQL是全球最先进的开源关系数据库，功能强大、性能优异。它是Dify平台的默认后端数据库，存储用户数据、应用配置、对话记录等结构化数据。'},
+    {type:'h', title:'🔧 pgvector扩展', text:'pgvector是PostgreSQL的向量搜索扩展，安装后可以让PostgreSQL同时支持关系查询和向量搜索。这样就不需要单独部署一个向量数据库，运维更简单。会议中提到"PostgreSQL加一个向量插件pgvector"就是这个方案。'},
+    {type:'h', title:'💡 会议原话', text:'"PostgreSQL加一个向量插件pgvector，它就可以支持向量的存储和搜索了"——这是最简单的向量数据库入门方案。'},
+    {type:'related', terms:['向量数据库','Milvus','Dify','信创','pgvector']}
+  ]
+},
+
+'RAGFlow': {
+  title: 'RAGFlow',
+  subtitle: '专业知识召回引擎',
+  icon: '🔍',
+  color: '#8b5cf6',
+  brief: '专门做知识召回的产品，比Dify自带的召回效果更好',
+  sections: [
+    {type:'h', title:'📖 什么是RAGFlow', text:'RAGFlow是InfiniFlow公司开源的RAG引擎，专门针对知识召回场景优化。相比Dify自带的简单RAG功能，RAGFlow提供了更精细的文档解析、更智能的切片策略和更准确的检索能力。'},
+    {type:'h', title:'📊 RAGFlow vs Dify RAG', text:'Dify内置RAG：简单易用，集成度高，但召回效果一般
+RAGFlow：专业RAG引擎，召回效果更好，支持深度文档解析和模板化切片
+
+可以选择：用Dify做应用层，用RAGFlow做知识库层，两者配合使用。'},
+    {type:'related', terms:['RAG','Dify','向量数据库','Chunking','召回']}
+  ]
+},
+
+'百千万平台': {
+  title: '百千万平台',
+  subtitle: '智能体共享应用市场',
+  icon: '🏪',
+  color: '#f59e0b',
+  brief: '在Dify基础上二次开发的平台，加了一个应用市场让大家共享智能体',
+  sections: [
+    {type:'h', title:'📖 什么是百千万平台', text:'百千万平台是在Dify开源版基础上二次开发的智能体共享平台，增加了一个应用市场功能，让不同部门可以共享和复用智能体。名字来源于"百千万工程"——打造100个AI工程师，实现1000个智能体应用，衍生出万级落地场景。'},
+    {type:'h', title:'🌟 对你的意义', text:'①你做的智能体可以发布到平台上，其他部门也能用
+②别人做的智能体你可以复制过来改一改用
+③这就是"共创"——不用每个人都从零开始
+④平台提供统一的模型服务，不需要每个部门自己部署'},
+    {type:'related', terms:['Dify','Agent','Skill']}
+  ]
+},
+
+'召回': {
+  title: '召回（Recall）',
+  subtitle: '从知识库中检索相关内容',
+  icon: '🎣',
+  color: '#06b6d4',
+  brief: '从知识库中检索出与问题相关的内容，是RAG的关键步骤',
+  sections: [
+    {type:'h', title:'📖 什么是召回', text:'召回（Recall）是RAG流程中的检索步骤——当用户提问时，系统从知识库中找出与问题最相关的文档片段。召回质量直接决定RAG的效果：召回对了，模型就能基于真实资料回答；召回错了，模型可能找不到有用信息。'},
+    {type:'h', title:'📊 影响召回质量的因素', text:'①切片质量：切得好，每个片段语义完整，召回才准
+②Embedding模型：好的模型能更准确地表达语义
+③检索策略：单一检索 vs 多路检索+重排序
+④知识库质量：文档越权威、越完整，召回效果越好
+⑤查询优化：用户的原始问题可能不够精确，需要改写'},
+    {type:'related', terms:['RAG','向量数据库','Embedding','Chunking','知识库','RAGFlow']}
+  ]
+},
+
+'深度学习': {
+  title: '深度学习（Deep Learning）',
+  subtitle: '多层神经网络自动学习特征',
+  icon: '🧬',
+  color: '#8b5cf6',
+  brief: '使用多层神经网络自动从数据中学习特征的技术，是现代AI的基础',
+  sections: [
+    {type:'h', title:'📖 什么是深度学习', text:'深度学习是机器学习的一个分支，使用多层（"深"=层数多）的神经网络来自动从数据中学习特征。2012年AlexNet在图像识别中的突破标志着深度学习时代的到来。与传统机器学习不同，深度学习不需要人工设计特征，模型自己就能学会。'},
+    {type:'h', title:'🔬 深度学习 vs 传统机器学习', text:'传统机器学习：人工提取特征（如"毛发长度"、"耳朵形状"）→ 模型根据特征分类
+深度学习：原始数据（图像像素/文本字符）→ 神经网络自动学习特征 → 自动分类
+
+深度学习的突破在于"自动学习特征"，省去了最耗时的人工特征工程。'},
+    {type:'related', terms:['神经网络','GPU','预训练','Transformer','LLM']}
+  ]
+},
+
+'神经网络': {
+  title: '神经网络（Neural Network）',
+  subtitle: '模拟人脑神经元的计算模型',
+  icon: '🕸️',
+  color: '#ec4899',
+  brief: '模拟人脑神经元的计算模型，一层一层地处理数据',
+  sections: [
+    {type:'h', title:'📖 什么是神经网络', text:'神经网络是一种受生物神经系统启发的计算模型，由大量人工神经元（节点）分层排列组成。数据从输入层进入，经过隐藏层的逐层计算，最终从输出层产生结果。每一层的神经元会对输入进行加权求和和非线性变换，逐步提取更高层次的特征。'},
+    {type:'example', title:'🌟 直观类比', text:'想象一个识别"是否为治安案件"的神经网络：
+
+输入层：接收卷宗的基本信息（案由、金额、当事人数量...）
+隐藏层1：提取低级特征（如"金额<500元"）
+隐藏层2：组合特征（如"小额+单次+无组织=治安"）
+输出层：输出判断结果（"治安案件"或"刑事案件"）
+
+每一层都在做更高级的抽象。'},
+    {type:'related', terms:['深度学习','Transformer','Attention','预训练']}
+  ]
+},
+
+'推理': {
+  title: '推理（Inference）',
+  subtitle: '模型回答问题的过程',
+  icon: '🤔',
+  color: '#3b82f6',
+  brief: '训练好的模型接收输入并产生输出的过程，即"使用"模型',
+  sections: [
+    {type:'h', title:'📖 什么是推理', text:'推理（Inference）是指用训练好的模型对新的输入数据产生输出的过程。训练是"学习"，推理是"使用"。你在Cherry Studio里打字提问、大模型给出回答——这就是一次推理。'},
+    {type:'h', title:'📊 训练 vs 推理', text:'训练（Training）：用大量数据调整模型参数 → 需要大量GPU，成本极高
+微调（Fine-tuning）：用少量专业数据进一步调整 → 需要中等GPU
+推理（Inference）：用训练好的模型回答问题 → 需要较少GPU
+
+你们主要做的是"推理"——使用别人训练好的模型。'},
+    {type:'related', terms:['LLM','GPU','预训练','FineTuning','量化']}
+  ]
+},
+
+'工作流': {
+  title: '工作流智能体',
+  subtitle: '固定流程的智能体',
+  icon: '🔄',
+  color: '#3b82f6',
+  brief: '按照预定义步骤执行的智能体，像流水线一样',
+  sections: [
+    {type:'h', title:'📖 概念说明', text:'工作流智能体是第一代Agent实现方式，用户预先定义好每一步的执行逻辑，Agent按照固定顺序依次执行。详见"Workflow"词条。'},
+    {type:'related', terms:['Workflow','Agent','Skill','超级智能体']}
+  ]
+},
+
+'SVM': {
+  title: 'SVM（支持向量机）',
+  subtitle: '传统机器学习算法',
+  icon: '📐',
+  color: '#64748b',
+  brief: '传统AI时代的经典分类算法，已被深度学习取代主流地位',
+  sections: [
+    {type:'h', title:'📖 什么是SVM', text:'SVM（Support Vector Machine，支持向量机）是传统机器学习时代的经典分类算法，通过寻找最优超平面来分隔不同类别的数据。在深度学习兴起之前，SVM是文本分类、图像识别等领域的主流方法。'},
+    {type:'h', title:'📊 SVM vs 深度学习', text:'SVM：需要人工提取特征，适合小数据量，训练快
+深度学习：自动学习特征，适合大数据量，训练慢但效果更好
+
+在公安场景中，SVM可能仍用于简单的分类任务（如判断文书类型），但复杂的语义理解任务必须用深度学习和大模型。'},
+    {type:'related', terms:['深度学习','神经网络','预训练']}
+  ]
+},
+
+'图灵测试': {
+  title: '图灵测试（Turing Test）',
+  subtitle: 'AI的起源问题',
+  icon: '🤖',
+  color: '#94a3b8',
+  brief: '1950年图灵提出的"机器能思考吗"问题，AI的思想起点',
+  sections: [
+    {type:'h', title:'📖 什么是图灵测试', text:'图灵测试由英国数学家阿兰·图灵在1950年的论文《Computing Machinery and Intelligence》中提出。核心问题是"机器能思考吗？"测试方法：如果一个人通过文字对话无法分辨对方是人还是机器，则可以说机器具有智能。'},
+    {type:'h', title:'🌟 历史意义', text:'图灵测试开启了人工智能研究的哲学基础。虽然现代AI研究者认为图灵测试过于简单（ChatGPT很容易通过图灵测试，但并不意味着它真的"思考"），但它的核心问题——机器能否表现出智能行为——至今仍是AI领域的根本问题。'},
+    {type:'quote', title:'📝 来源', text:'论文：《Computing Machinery and Intelligence》，发表于1950年《Mind》期刊。作者：Alan Turing，英国数学家、计算机科学之父。'},
+    {type:'related', terms:['深度学习','LLM','神经网络']}
+  ]
+},
+
+'pgvector': {
+  title: 'pgvector',
+  subtitle: 'PostgreSQL向量搜索扩展',
+  icon: '🔌',
+  color: '#3b82f6',
+  brief: 'PostgreSQL的扩展插件，让关系数据库也能做向量搜索',
+  sections: [
+    {type:'h', title:'📖 什么是pgvector', text:'pgvector是PostgreSQL的一个开源扩展，安装后可以让PostgreSQL存储向量数据并执行相似度搜索。它的优势是不需要单独部署向量数据库，关系数据和向量数据在同一个库中管理，运维更简单。'},
+    {type:'h', title:'💡 适用场景', text:'适合数据量不大（百万级以下向量）且希望简化架构的场景。如果向量数据量很大（千万级以上），建议使用Milvus等专业向量数据库。'},
+    {type:'related', terms:['PostgreSQL','向量数据库','Milvus','RAG']}
+  ]
+},
+
+'PaddleOCR': {
+  title: 'PaddleOCR',
+  subtitle: '百度开源OCR工具',
+  icon: '📄',
+  color: '#06b6d4',
+  brief: '百度开源的OCR工具，中文识别效果好，免费本地部署',
+  sections: [
+    {type:'h', title:'📖 什么是PaddleOCR', text:'PaddleOCR是百度基于PaddlePaddle深度学习框架开发的开源OCR工具，支持80+种语言识别，中文识别效果在开源方案中名列前茅。支持文字检测、文字识别、版面分析等功能，可以本地部署，不需要联网。'},
+    {type:'h', title:'🌟 公安场景适用性', text:'公安卷宗OCR的推荐方案：
+①中文识别效果优秀
+②支持手写体识别
+③可本地部署，数据不出网
+④开源免费
+⑤支持表格识别
+
+缺点：对印章遮挡区域识别效果一般，可能需要配合图像预处理。'},
+    {type:'related', terms:['OCR','知识库','Chunking','RAG']}
+  ]
+}
+});
+
+</script>
+<!-- 弹窗逻辑 -->
+<script>
+// 弹窗逻辑 + 初始化
+(function() {
+  'use strict';
+
+  // 打开术语详情弹窗
+  window.openTerm = function(key) {
+    const g = window.GLOSSARY;
+    if (!g || !g[key]) {
+      // 尝试模糊匹配
+      const keys = Object.keys(g || {});
+      const match = keys.find(k => k.toLowerCase() === key.toLowerCase());
+      if (match) return window.openTerm(match);
+      console.warn('Term not found:', key);
+      return;
+    }
+    const item = g[key];
+    const modal = document.getElementById('termModal');
+    const body = document.getElementById('modalBody');
+
+    let html = '';
+    // Header
+    html += '<div class="modal-header" style="border-left:4px solid ' + item.color + ';padding-left:16px;margin-bottom:20px">';
+    html += '<div style="font-size:32px;margin-bottom:8px">' + item.icon + '</div>';
+    html += '<div class="modal-title">' + item.title + '</div>';
+    html += '<div style="color:var(--muted);font-size:13px">' + item.subtitle + '</div>';
+    html += '</div>';
+
+    // Brief
+    html += '<div class="modal-brief">' + item.brief + '</div>';
+
+    // Sections
+    if (item.sections) {
+      item.sections.forEach(function(sec) {
+        if (sec.type === 'h') {
+          html += '<div class="modal-section">';
+          html += '<div class="modal-section-title">' + sec.title + '</div>';
+          html += '<div class="modal-section-text">' + formatText(sec.text) + '</div>';
+          html += '</div>';
+        } else if (sec.type === 'example') {
+          html += '<div class="modal-example">';
+          html += '<div class="modal-section-title">' + sec.title + '</div>';
+          html += '<div class="modal-section-text">' + formatText(sec.text) + '</div>';
+          html += '</div>';
+        } else if (sec.type === 'quote') {
+          html += '<div class="modal-quote">';
+          html += '<div class="modal-section-title">' + sec.title + '</div>';
+          html += '<div class="modal-section-text">' + formatText(sec.text) + '</div>';
+          html += '</div>';
+        } else if (sec.type === 'timeline') {
+          html += '<div class="modal-timeline">';
+          html += '<div class="modal-section-title">' + sec.title + '</div>';
+          html += '<div class="modal-section-text">' + formatText(sec.text) + '</div>';
+          html += '</div>';
+        } else if (sec.type === 'related') {
+          html += '<div class="modal-related">';
+          html += '<div class="modal-section-title">🔗 相关概念</div>';
+          html += '<div class="modal-tags">';
+          sec.terms.forEach(function(t) {
+            html += '<span class="modal-tag" onclick="openTerm(\'' + t.replace(/'/g, "\'") + '\')">' + t + '</span>';
+          });
+          html += '</div>';
+          html += '</div>';
+        }
+      });
+    }
+
+    body.innerHTML = html;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  // 关闭弹窗
+  window.closeTermModal = function() {
+    const modal = document.getElementById('termModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // 格式化文本（换行、代码等）
+  function formatText(text) {
+    if (!text) return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/<code>([^<]*)<\/code>/g, '<code>$1</code>') // preserve code tags
+      .replace(/
+
+/g, '<br><br>')
+      .replace(/
+/g, '<br>')
+      .replace(/①/g, '<br>①')
+      .replace(/②/g, '<br>②')
+      .replace(/③/g, '<br>③')
+      .replace(/④/g, '<br>④')
+      .replace(/⑤/g, '<br>⑤')
+      .replace(/⑥/g, '<br>⑥')
+      .replace(/⑦/g, '<br>⑦')
+      .replace(/⑧/g, '<br>⑧')
+      .replace(/❌/g, '<br>❌')
+      .replace(/✅/g, '<br>✅');
+  }
+
+  // ESC关闭弹窗
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeTermModal();
+  });
+
+  // 点击遮罩关闭
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('termModal');
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeTermModal();
+      });
+    }
+
+    // 绑定 .term 元素点击事件
+    document.querySelectorAll('.term').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const key = el.getAttribute('data-key') || el.textContent.trim();
+        openTerm(key);
+      });
+      el.style.cursor = 'pointer';
+    });
+
+    // 动态生成速查表（第8章）
+    generateGlossaryTable();
+  });
+
+  // 动态生成速查表
+  function generateGlossaryTable() {
+    const container = document.getElementById('glossaryTableBody');
+    if (!container || !window.GLOSSARY) return;
+
+    const g = window.GLOSSARY;
+    // 按中文拼音排序的键列表
+    const order = ['Agent','API','Attention','百千万平台','Cherry Studio','Chunking','CUDA','Docker','Dify',
+      'Embedding','FineTuning','GPU','Hallucination','知识库','LLM','Milvus','OCR','PaddleOCR',
+      'PostgreSQL','pgvector','Prompt','RAG','RAGFlow','Skill','SSH','Token','Transformer',
+      'Ubuntu','向量数据库','信创','超级智能体','切片','召回','量化','上下文窗口','工作流',
+      '深度学习','预训练','推理','SVM','图灵测试','神经网络','Workflow'];
+
+    let html = '';
+    order.forEach(function(key) {
+      if (!g[key]) return;
+      const item = g[key];
+      html += '<tr>';
+      html += '<td><span class="term" data-key="' + key + '" onclick="openTerm(\'' + key.replace(/'/g, "\'") + '\')" style="cursor:pointer">' + item.icon + ' ' + key + '</span></td>';
+      html += '<td>' + item.brief + '</td>';
+      html += '</tr>';
+    });
+    container.innerHTML = html;
+  }
+})();
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ===== 进度条 =====
+    function updateProgress() {
+        var all = document.querySelectorAll('.check-box');
+        var checked = document.querySelectorAll('.check-box.checked');
+        var pct = all.length ? Math.round(checked.length / all.length * 100) : 0;
+        var bar = document.getElementById('miniProgress');
+        if (bar) bar.style.width = pct + '%';
+    }
+
+    // ===== Toast =====
+    window.showToast = function(msg, type) {
+        var wrap = document.getElementById('toasts');
+        if (!wrap) return;
+        var t = document.createElement('div');
+        t.className = 'toast toast-' + (type || 'info');
+        t.textContent = msg;
+        wrap.appendChild(t);
+        setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; setTimeout(function() { t.remove(); }, 300); }, 2500);
+    };
+
+    // 初始化进度
+    updateProgress();
+});
+</script>
+</body>
+</html>
