@@ -8,170 +8,177 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;510;590;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#08090a;--card:rgba(255,255,255,.03);--border:rgba(255,255,255,.06);--border-std:rgba(255,255,255,.08);--text:#f7f8f8;--muted:#d0d6e0;--dim:#62666d;--subtle:#8a8f98;--accent:#5e6ad2;--accent-hi:#7170ff;--accent-hover:#828fff;--green:#27a644;--orange:#f59e0b;--red:#ef4444;--surface:#191a1b;--surface-hi:rgba(255,255,255,.05)}
+:root{
+  --bg:#08090a;
+  --panel:#0f1011;
+  --surface:#191a1b;
+  --surface-hi:rgba(255,255,255,.05);
+  --card:rgba(255,255,255,.025);
+  --card-hi:rgba(255,255,255,.04);
+  --text:#f7f8f8;
+  --muted:#d0d6e0;
+  --subtle:#8a8f98;
+  --dim:#62666d;
+  --accent:#5e6ad2;
+  --accent-hi:#7170ff;
+  --accent-hover:#828fff;
+  --green:#27a644;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --border:rgba(255,255,255,.05);
+  --border-std:rgba(255,255,255,.08);
+  --border-hi:rgba(255,255,255,.12);
+  --shadow-ring:rgba(0,0,0,.2) 0px 0px 0px 1px;
+  --shadow-elevated:rgba(50,50,93,.18) 0px 24px 56px -16px,rgba(0,0,0,.12) 0px 12px 28px -12px;
+  --shadow-dialog:rgba(50,50,93,.25) 0px 30px 60px -20px,rgba(0,0,0,.15) 0px 18px 36px -18px;
+  --shadow-focus:rgba(94,106,210,.35) 0px 0px 0px 3px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Inter Variable","Inter",-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"cv01","ss03"}
-a{color:var(--blue);text-decoration:none}
-code{background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:.85em;color:var(--accent-hi);font-family:ui-monospace,SF Mono,Menlo,Consolas,monospace}
-pre{background:rgba(0,0,0,.3);padding:16px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.6;margin:12px 0;border:1px solid var(--border-std);font-family:ui-monospace,SF Mono,Menlo,Consolas,monospace;color:var(--muted)}
-pre .comment{color:#64748b}pre .cmd{color:#22c55e}pre .output{color:#94a3b8}
-
-/* ── Navigation ── */
-.topnav{position:sticky;top:0;z-index:100;background:rgba(8,9,10,.88);backdrop-filter:blur(16px) saturate(1.2);border-bottom:1px solid rgba(255,255,255,.06);padding:0 24px;display:flex;align-items:center;gap:16px;height:52px}
-.topnav .logo{font-size:14px;font-weight:590;letter-spacing:-.01em;color:var(--text);white-space:nowrap}
-.topnav .logo span{color:var(--accent)}
-.topnav .nav-links{display:flex;gap:2px;overflow-x:auto;flex:1;padding:4px 0}
-.topnav .nav-links a{padding:5px 10px;border-radius:6px;font-size:13px;font-weight:510;color:var(--subtle);white-space:nowrap;transition:all .15s;cursor:pointer}
+body{font-family:"Inter Variable","Inter",-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"cv01","ss03"}
+a{color:var(--accent-hi);text-decoration:none;transition:color .15s}
+a:hover{color:var(--accent-hover)}
+code{background:rgba(94,106,210,.08);padding:2px 6px;border-radius:4px;font-size:.85em;color:var(--accent-hi);font-family:"Berkeley Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;border:1px solid rgba(94,106,210,.12)}
+pre{background:var(--panel);padding:16px 20px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.7;margin:12px 0;border:1px solid var(--border-std);font-family:"Berkeley Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--muted)}
+pre .comment{color:#4b5563}pre .cmd{color:#34d399}pre .output{color:#94a3b8}
+.topnav{position:sticky;top:0;z-index:100;background:rgba(15,16,17,.82);backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:8px;height:52px}
+.topnav .logo{font-size:14px;font-weight:590;letter-spacing:-.02em;color:var(--text);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.topnav .logo .logo-mark{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--accent);color:#fff;font-size:12px;font-weight:590}
+.topnav .nav-links{display:flex;gap:2px;overflow-x:auto;flex:1;padding:4px 0;scrollbar-width:none}
+.topnav .nav-links::-webkit-scrollbar{display:none}
+.topnav .nav-links a{padding:5px 10px;border-radius:6px;font-size:13px;font-weight:510;color:var(--subtle);white-space:nowrap;transition:all .15s;cursor:pointer;letter-spacing:-.01em}
 .topnav .nav-links a:hover{color:var(--muted);background:rgba(255,255,255,.04)}
 .topnav .nav-links a.active{color:var(--text);background:rgba(255,255,255,.06)}
-.progress-bar-mini{height:3px;background:rgba(255,255,255,.06);border-radius:2px;width:120px;flex-shrink:0}
-.progress-bar-mini .fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s}
-
-/* ── Layout ── */
-.container{max-width:960px;margin:0 auto;padding:24px}
-.section{display:none;animation:fadeUp .4s ease}
+.progress-bar-mini{height:3px;background:rgba(255,255,255,.06);border-radius:2px;width:100px;flex-shrink:0}
+.progress-bar-mini .fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.container{max-width:960px;margin:0 auto;padding:32px 24px 48px}
+.section{display:none;animation:fadeUp .35s cubic-bezier(.4,0,.2,1)}
 .section.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── Cards ── */
-.hero{background:var(--card);border:1px solid var(--border-std);border-radius:12px;padding:48px 32px;margin-bottom:32px;text-align:center}
-.hero h1{font-size:32px;font-weight:590;margin-bottom:12px;color:var(--text);letter-spacing:-.02em}
-.hero p{color:var(--subtle);font-size:15px;max-width:540px;margin:0 auto;line-height:1.6}
-.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:12px;transition:border-color .15s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.section-head{margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.section-head h2{font-size:28px;font-weight:510;letter-spacing:-.7px;line-height:1.1;color:var(--text);margin-bottom:8px}
+.section-head p{color:var(--subtle);font-size:15px;line-height:1.6;letter-spacing:-.165px}
+.hero{background:linear-gradient(180deg,rgba(94,106,210,.04) 0%,transparent 60%);border:1px solid var(--border-std);border-radius:12px;padding:64px 40px;margin-bottom:32px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:200px;border-radius:50%;background:radial-gradient(ellipse,rgba(94,106,210,.08),transparent 70%);pointer-events:none}
+.hero h1{font-size:40px;font-weight:510;letter-spacing:-1.056px;line-height:1.05;color:var(--text);margin-bottom:12px;position:relative}
+.hero .hero-sub{color:var(--dim);font-size:13px;font-weight:510;letter-spacing:.04em;margin-bottom:24px;text-transform:uppercase}
+.hero p{color:var(--subtle);font-size:15px;max-width:560px;margin:0 auto;line-height:1.7;letter-spacing:-.165px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px;transition:border-color .2s,background .2s}
 .card:hover{border-color:var(--border-std)}
-
-/* ── Learning Path ── */
-.path-step{display:flex;gap:16px;margin-bottom:20px;position:relative}
-.path-step::before{content:"";position:absolute;left:17px;top:40px;bottom:-20px;width:1px;background:rgba(255,255,255,.04)}
+.card h3{font-size:14px;font-weight:510;color:var(--text);margin-bottom:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.path-step{display:flex;gap:16px;margin-bottom:24px;position:relative}
+.path-step::before{content:"";position:absolute;left:15px;top:40px;bottom:-24px;width:1px;background:rgba(255,255,255,.04)}
 .path-step:last-child::before{display:none}
-.step-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:590;flex-shrink:0;position:relative;z-index:1}
-.step-num.blue,.step-num.purple{background:rgba(94,106,210,.15);color:var(--accent)}
+.step-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:510;flex-shrink:0;position:relative;z-index:1;transition:all .2s}
+.step-num.blue,.step-num.purple{background:rgba(94,106,210,.12);color:var(--accent-hi)}
 .step-num.green{background:rgba(39,166,68,.1);color:var(--green)}
 .step-num.orange,.step-num.red{background:rgba(245,158,11,.1);color:var(--orange)}
-.step-num.cyan,.step-num.pink{background:rgba(255,255,255,.05);color:var(--muted)}
-.step-content{flex:1}
-.step-title{font-size:15px;font-weight:590;margin-bottom:4px;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
-.step-desc{font-size:13px;color:var(--subtle);margin-bottom:12px;line-height:1.6}
-.step-badge{font-size:10px;padding:2px 8px;border-radius:6px;font-weight:510;letter-spacing:.02em}
-.badge-essential{background:rgba(239,68,68,.1);color:var(--red)}
-.badge-important{background:rgba(245,158,11,.1);color:var(--orange)}
-.badge-nice{background:rgba(39,166,68,.1);color:var(--green)}
-
-/* ── Expandable ── */
-.expandable{border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:border-color .15s}
+.step-num.cyan,.step-num.pink{background:rgba(255,255,255,.04);color:var(--subtle)}
+.step-content{flex:1;padding-top:2px}
+.step-title{font-size:15px;font-weight:590;margin-bottom:4px;display:flex;align-items:center;gap:8px;letter-spacing:-.01em;color:var(--text)}
+.step-desc{font-size:13px;color:var(--subtle);margin-bottom:12px;line-height:1.7;letter-spacing:-.165px}
+.step-badge{font-size:10px;padding:2px 8px;border-radius:9999px;font-weight:510;letter-spacing:.02em}
+.badge-essential{background:rgba(239,68,68,.08);color:var(--red);border:1px solid rgba(239,68,68,.12)}
+.badge-important{background:rgba(245,158,11,.08);color:var(--orange);border:1px solid rgba(245,158,11,.12)}
+.badge-nice{background:rgba(39,166,68,.08);color:var(--green);border:1px solid rgba(39,166,68,.12)}
+.expandable{border:1px solid var(--border);border-radius:6px;margin-bottom:4px;overflow:hidden;transition:border-color .2s}
 .expandable:hover{border-color:var(--border-std)}
-.expand-header{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:510;transition:background .15s}
-.expand-header:hover{background:rgba(255,255,255,.03)}
+.expand-header{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:510;transition:background .15s;color:var(--text);letter-spacing:-.01em}
+.expand-header:hover{background:rgba(255,255,255,.02)}
 .expand-header .icon{font-size:16px;flex-shrink:0}
-.expand-header .arrow{margin-left:auto;transition:transform .2s;color:var(--dim);font-size:12px}
+.expand-header .arrow{margin-left:auto;transition:transform .2s;color:var(--dim);font-size:11px}
 .expand-header.open .arrow{transform:rotate(90deg)}
 .expand-body{display:none;padding:0 16px 16px;font-size:13px;color:var(--muted);line-height:1.8}
 .expand-body.show{display:block}
-
-/* ── Term Highlight ── */
-.term{color:var(--accent-hi);font-weight:510;cursor:pointer;border-bottom:1px dashed rgba(113,112,255,.25);transition:all .15s}
+.term{color:var(--accent-hi);font-weight:510;cursor:pointer;border-bottom:1px dashed rgba(113,112,255,.2);transition:all .15s}
 .term:hover{border-bottom-color:var(--accent-hi);color:var(--accent-hover)}
-
-/* ── Modal / 术语弹窗 ── */
-.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:1000;justify-content:center;align-items:flex-start;padding:48px 16px;overflow-y:auto}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);z-index:1000;justify-content:center;align-items:flex-start;padding:60px 16px;overflow-y:auto}
 .modal-overlay.active{display:flex}
-.modal-content{background:#0f1011;border:1px solid var(--border-std);border-radius:12px;max-width:720px;width:100%;padding:32px;position:relative;animation:modalIn .25s ease;box-shadow:0 24px 64px rgba(0,0,0,.5)}
-@keyframes modalIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--subtle);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.modal-content{background:var(--panel);border:1px solid var(--border-std);border-radius:12px;max-width:720px;width:100%;padding:32px;position:relative;animation:modalIn .25s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-dialog)}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--subtle);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .modal-close:hover{background:rgba(255,255,255,.05);color:var(--text);border-color:var(--border-std)}
+.modal-close:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
 .modal-title{font-size:20px;font-weight:590;color:var(--text);margin-bottom:4px;letter-spacing:-.02em}
-.modal-brief{background:rgba(94,106,210,.06);border:1px solid rgba(94,106,210,.1);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:14px;line-height:1.6;color:var(--muted)}
-.modal-section{margin-bottom:12px;padding:14px 16px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border)}
+.modal-brief{background:rgba(94,106,210,.05);border:1px solid rgba(94,106,210,.1);border-radius:8px;padding:14px 16px;margin-bottom:20px;font-size:14px;line-height:1.7;color:var(--muted);letter-spacing:-.01em}
+.modal-section{margin-bottom:10px;padding:14px 16px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border)}
 .modal-section-title{font-size:13px;font-weight:590;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
-.modal-section-text{font-size:13px;line-height:1.7;color:var(--subtle)}
-.modal-section-text code{background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:.85em;color:var(--accent-hi)}
-.modal-example{margin-bottom:12px;padding:14px 16px;background:rgba(39,166,68,.04);border:1px solid rgba(39,166,68,.08);border-radius:8px}
-.modal-quote{margin-bottom:12px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
-.modal-timeline{margin-bottom:12px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
-.modal-related{margin-bottom:8px;padding:12px 18px}
-.modal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.modal-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:510;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--border);cursor:pointer;transition:all .15s}
-.modal-tag:hover{background:rgba(94,106,210,.1);border-color:rgba(94,106,210,.2);color:var(--accent-hi)}
-
-/* ── Info boxes ── */
+.modal-section-text{font-size:13px;line-height:1.8;color:var(--subtle)}
+.modal-section-text code{background:rgba(94,106,210,.08);padding:1px 5px;border-radius:3px;font-size:.85em;color:var(--accent-hi);border:1px solid rgba(94,106,210,.1)}
+.modal-example{margin-bottom:10px;padding:14px 16px;background:rgba(39,166,68,.03);border:1px solid rgba(39,166,68,.08);border-radius:8px}
+.modal-quote{margin-bottom:10px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+.modal-timeline{margin-bottom:10px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+.modal-related{margin-bottom:8px;padding:12px 16px}
+.modal-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.modal-tag{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:12px;font-weight:510;background:rgba(255,255,255,.03);color:var(--muted);border:1px solid var(--border);cursor:pointer;transition:all .15s}
+.modal-tag:hover{background:rgba(94,106,210,.08);border-color:rgba(94,106,210,.15);color:var(--accent-hi)}
+.info-box{background:rgba(94,106,210,.04);border:1px solid rgba(94,106,210,.08);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.7}
+.warn-box{background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.08);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.7}
+.danger-box{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.08);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.7}
+.success-box{background:rgba(39,166,68,.04);border:1px solid rgba(39,166,68,.08);border-radius:8px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.7}
 .clickable-node{cursor:pointer;transition:all .2s}
-.clickable-node:hover{transform:scale(1.04);border-color:var(--accent);background:rgba(94,106,210,.06)}
-
-/* ── Map Detail Card (认知地图详情) ── */
-.map-detail{background:var(--surface);border:1px solid var(--border-std);border-radius:8px;padding:24px;margin-bottom:16px;animation:fadeUp .3s ease}
+.clickable-node:hover{transform:translateY(-1px);border-color:rgba(94,106,210,.3) !important;background:rgba(94,106,210,.04);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.map-detail{background:var(--surface);border:1px solid var(--border-std);border-radius:8px;padding:24px;margin-bottom:16px;animation:fadeUp .3s cubic-bezier(.4,0,.2,1)}
 .map-detail-title{font-size:17px;font-weight:590;margin-bottom:4px;letter-spacing:-.01em}
 .map-detail-sub{color:var(--dim);font-size:12px;margin-bottom:16px}
 .map-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-.map-detail-box{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:12px;line-height:1.6}
+.map-detail-box{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:12px;line-height:1.7}
 .map-detail-box strong{color:var(--text);font-size:13px}
-.map-detail-box code{background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--accent-hi)}
-.map-visual{background:rgba(0,0,0,.3);border-radius:12px;padding:16px;margin:12px 0;text-align:center;font-size:12px;line-height:1.8;color:var(--muted)}
+.map-detail-box code{background:rgba(94,106,210,.08);padding:1px 5px;border-radius:3px;font-size:11px;color:var(--accent-hi);border:1px solid rgba(94,106,210,.1)}
+.map-visual{background:rgba(0,0,0,.25);border-radius:8px;padding:20px;margin:12px 0;text-align:center;font-size:12px;line-height:1.9;color:var(--muted);border:1px solid var(--border)}
 .map-visual .hl{color:var(--accent-hi);font-weight:590}
 .map-visual .hi{color:var(--orange);font-weight:590}
 .map-visual .hr{color:var(--red);font-weight:590}
 .map-visual .hg{color:var(--green);font-weight:590}
 .map-visual .hp{color:var(--accent);font-weight:590}
 .map-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:510;margin:2px}
-.map-close-btn{width:100%;margin-top:12px;padding:8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--subtle);cursor:pointer;font-size:12px;font-weight:510;transition:all .15s}
+.map-close-btn{width:100%;margin-top:12px;padding:8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--subtle);cursor:pointer;font-size:12px;font-weight:510;transition:all .15s;font-family:inherit}
 .map-close-btn:hover{background:rgba(255,255,255,.04);color:var(--text);border-color:var(--border-std)}
 .map-section{margin:12px 0;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px}
 .map-section-head{font-size:13px;font-weight:590;margin-bottom:10px;color:var(--text);letter-spacing:-.01em}
-.map-video-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(94,106,210,.06);border:1px solid rgba(94,106,210,.1);border-radius:6px;margin-bottom:6px;font-size:12px;cursor:pointer;transition:all .15s;text-decoration:none;color:var(--muted)}
-.map-video-item:hover{background:rgba(94,106,210,.1);border-color:rgba(94,106,210,.2);color:var(--text)}
+.map-video-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(94,106,210,.04);border:1px solid rgba(94,106,210,.08);border-radius:6px;margin-bottom:6px;font-size:12px;cursor:pointer;transition:all .15s;text-decoration:none;color:var(--muted)}
+.map-video-item:hover{background:rgba(94,106,210,.08);border-color:rgba(94,106,210,.15);color:var(--text)}
 .map-video-item .vi-icon{font-size:16px;flex-shrink:0}
-.map-video-item .vi-title{flex:1;font-weight:600}
-.map-video-item .vi-tag{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,.15);color:var(--red);font-weight:700}
+.map-video-item .vi-title{flex:1;font-weight:510}
+.map-video-item .vi-tag{font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,.1);color:var(--red);font-weight:510;border:1px solid rgba(239,68,68,.12)}
 .map-step-list{counter-reset:step;list-style:none;padding:0}
 .map-step-item{counter-increment:step;display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px;line-height:1.7;color:var(--muted)}
-.map-step-item::before{content:counter(step);display:flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;background:rgba(94,106,210,.12);color:var(--accent);font-size:11px;font-weight:590;flex-shrink:0;margin-top:1px}
-.map-cmd{background:rgba(0,0,0,.3);padding:10px 14px;border-radius:6px;font-size:11px;font-family:ui-monospace,SF Mono,Menlo,Consolas,monospace;line-height:1.8;color:var(--muted);margin:8px 0;overflow-x:auto;border:1px solid var(--border)}
-.map-cmd .c{color:var(--dim)}.map-cmd .k{color:var(--green)}.map-cmd .o{color:var(--subtle)}
-.map-tip{padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.7;margin:8px 0}
-.map-tip-warn{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.08);color:var(--orange)}
-.map-tip-ok{background:rgba(39,166,68,.06);border:1px solid rgba(39,166,68,.08);color:var(--green)}
-.map-tip-info{background:rgba(94,106,210,.06);border:1px solid rgba(94,106,210,.08);color:var(--blue)}
-.map-kbd{display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid var(--border-std);font-size:10px;font-family:ui-monospace,SF Mono,Menlo,Consolas,monospace;color:var(--subtle)}
-
-.info-box{background:rgba(94,106,210,.05);border:1px solid rgba(94,106,210,.08);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:13px;line-height:1.6}
-.warn-box{background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.08);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:13px;line-height:1.6}
-.danger-box{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.08);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:13px;line-height:1.6}
-.success-box{background:rgba(39,166,68,.05);border:1px solid rgba(39,166,68,.08);border-radius:6px;padding:12px 14px;margin:12px 0;font-size:13px;line-height:1.6}
-
-/* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;font-size:13px;font-weight:510;cursor:pointer;transition:all .15s;font-family:inherit}
-.btn-blue{background:var(--accent);color:#fff}.btn-blue:hover{background:var(--accent-hover)}
-.btn-green{background:var(--green);color:#fff}.btn-green:hover{opacity:.9}
-.btn-ghost{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border)}.btn-ghost:hover{background:rgba(255,255,255,.1)}
-.btn-sm{padding:5px 12px;font-size:11px;border-radius:6px}
-
-/* ── Checklist ── */
-.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:13px;cursor:pointer}
-.check-item:hover{background:rgba(255,255,255,.02);border-radius:4px}
+.map-step-item::before{content:counter(step);display:flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;background:rgba(94,106,210,.1);color:var(--accent-hi);font-size:11px;font-weight:510;flex-shrink:0;margin-top:1px;border:1px solid rgba(94,106,210,.12)}
+.map-cmd{background:var(--panel);padding:12px 16px;border-radius:6px;font-size:11px;font-family:"Berkeley Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;line-height:1.8;color:var(--muted);margin:8px 0;overflow-x:auto;border:1px solid var(--border-std)}
+.map-cmd .c{color:var(--dim)}.map-cmd .k{color:#34d399}.map-cmd .o{color:var(--subtle)}
+.map-tip{padding:12px 16px;border-radius:8px;font-size:12px;line-height:1.7;margin:8px 0}
+.map-tip-warn{background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.08);color:var(--orange)}
+.map-tip-ok{background:rgba(39,166,68,.04);border:1px solid rgba(39,166,68,.08);color:var(--green)}
+.map-tip-info{background:rgba(94,106,210,.04);border:1px solid rgba(94,106,210,.08);color:var(--accent-hi)}
+.map-kbd{display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid var(--border-std);font-size:10px;font-family:"Berkeley Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--subtle)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;font-size:13px;font-weight:510;cursor:pointer;transition:all .15s;font-family:inherit;letter-spacing:-.01em}
+.btn:focus-visible{outline:none;box-shadow:var(--shadow-focus)}
+.btn-blue{background:var(--accent);color:#fff}
+.btn-blue:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 12px rgba(94,106,210,.3)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{opacity:.9;transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.03);color:var(--muted);border:1px solid var(--border-std)}
+.btn-ghost:hover{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--border-hi)}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
+.chapter-nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border)}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:13px;cursor:pointer;transition:background .15s;border-radius:4px}
+.check-item:hover{background:rgba(255,255,255,.02)}
 .check-box{width:18px;height:18px;border:2px solid #475569;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
 .check-box.checked{background:var(--accent);border-color:var(--accent)}
 .check-box.checked::after{content:"";width:5px;height:9px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg);margin-bottom:2px}
 .check-text.done{color:#475569;text-decoration:line-through}
-
-/* ── Table ── */
 table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
-th{text-align:left;padding:8px 10px;background:rgba(255,255,255,.03);color:var(--subtle);font-weight:510;border-bottom:1px solid var(--border-std);font-size:12px}
+th{text-align:left;padding:8px 10px;background:rgba(255,255,255,.03);color:var(--subtle);font-weight:510;border-bottom:1px solid var(--border-std);font-size:12px;letter-spacing:-.01em}
 td{padding:8px 10px;border-bottom:1px solid var(--border)}
-
-/* ── Flow diagram ── */
 .flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0;padding:16px;background:rgba(0,0,0,.2);border-radius:8px;border:1px solid var(--border)}
-.flow-node{text-align:center;padding:8px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;min-width:72px;font-size:12px;font-weight:510;cursor:default}
+.flow-node{text-align:center;padding:8px 12px;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:6px;min-width:72px;font-size:12px;font-weight:510;cursor:default;transition:all .2s}
 .flow-node .fi{font-size:20px;margin-bottom:4px}
 .flow-arrow{color:var(--dim);font-size:16px}
-
-/* ── Toast ── */
 .toast-wrap{position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px}
-.toast{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.4);animation:slideIn .3s ease}
+.toast{padding:12px 20px;border-radius:8px;font-size:13px;font-weight:510;box-shadow:var(--shadow-elevated);animation:slideIn .3s cubic-bezier(.4,0,.2,1);letter-spacing:-.01em}
 .toast-success{background:var(--green);color:#fff}
 .toast-info{background:var(--accent);color:#fff}
-@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-
-/* ── Responsive ── */
-@media(max-width:768px){.container{padding:16px}.hero{padding:32px 16px}.hero h1{font-size:24px}.topnav .nav-links{display:none}.map-detail-grid{grid-template-columns:1fr}}
+@keyframes slideIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:768px){.container{padding:20px 16px 32px}.hero{padding:40px 20px}.hero h1{font-size:28px;letter-spacing:-.704px}.topnav .nav-links{display:none}.map-detail-grid{grid-template-columns:1fr}.section-head h2{font-size:22px;letter-spacing:-.528px}}
 </style>
 </head>
 <body>
@@ -470,7 +477,7 @@ function closeMapDetail(){
 
 <!-- Top Navigation -->
 <nav class="topnav">
-    <div class="logo"><span>◆</span> AI 从零到落地</div>
+    <div class="logo"><span class="logo-mark">◆</span> AI 从零到落地</div>
     <div class="nav-links" id="navLinks">
         <a class="active" onclick="goSection('home')">首页</a>
         <a onclick="goSection('ch1')">1.认知地图</a>
@@ -489,12 +496,12 @@ function closeMapDetail(){
 <div class="container section active" id="sec-home">
 <div class="hero">
     <h1>AI 从零到落地</h1>
-    <p style="font-size:13px;color:var(--dim);margin-top:8px;letter-spacing:.04em">公安科信民警极速学习站</p>
-    <p style="margin-top:20px">专为你设计：科信大队新民警 · 计算机本科应届 · 零开发经验<br>2-3 天内听懂所有名词 + 掌握基本开发技能 + 完成领导交代的任务</p>
+    <div class="hero-sub">公安科信民警极速学习站</div>
+    <p>专为你设计：科信大队新民警 · 计算机本科应届 · 零开发经验<br>2-3 天内听懂所有名词 + 掌握基本开发技能 + 完成领导交代的任务</p>
 </div>
 
 <div class="card">
-    <h3 style="margin-bottom:16px;font-size:15px;">🗺️ 你的学习路线图（按认知顺序排列）</h3>
+    <h3 >🗺️ 你的学习路线图（按认知顺序排列）</h3>
     
     <div class="path-step">
         <div class="step-num blue">1</div>
@@ -564,17 +571,16 @@ function closeMapDetail(){
 
 <div class="card" style="text-align:center">
     <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">预计学习时间：每个章节 30-60 分钟，总计 4-6 小时<br>建议顺序学习，不要跳章</p>
-    <button class="btn btn-blue" onclick="goSection('ch1')">🚀 从第1章开始</button>
+    <button class="btn btn-blue" onclick="goSection('ch1')">从第1章开始 →</button>
 </div>
 </div>
 
 <!-- ==================== SECTION: CH1 认知地图 ==================== -->
 <div class="container section" id="sec-ch1">
-<h2 style="margin-bottom:8px">🗺️ 第一章：认知地图</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">先看全貌，再走细节。这张图告诉你所有东西的位置和关系。</p>
+<div class="section-head"><h2>🗺️ 第一章：认知地图</h2><p>先看全貌，再走细节。这张图告诉你所有东西的位置和关系。</p></div>
 
 <div class="card">
-<h3 style="font-size:14px;margin-bottom:16px;color:var(--blue)">🏛️ AI 系统全景图 —— 你要做的系统长这样</h3>
+<h3 >🏛️ AI 系统全景图 —— 你要做的系统长这样</h3>
 <p style="color:var(--dim);font-size:11px;margin-bottom:12px">💡 点击任意蓝色边框节点可查看详细讲解</p>
 <div class="flow" style="flex-direction:column;align-items:stretch;gap:4px;background:rgba(0,0,0,.3)">
     <div style="text-align:center;font-size:11px;color:var(--dim);margin-bottom:8px">▼ 用户层</div>
@@ -616,7 +622,7 @@ function closeMapDetail(){
 </div>
 
 <div class="card">
-<h3 style="font-size:14px;margin-bottom:16px;color:var(--purple)">🔗 核心概念依赖关系 —— 为什么要按顺序学</h3>
+<h3 >🔗 核心概念依赖关系 —— 为什么要按顺序学</h3>
 <div style="font-size:13px;line-height:2.2">
     <strong>1.</strong> 先理解<strong>什么是人工智能</strong> → 才能理解<strong>什么是<span class="term" style="cursor:pointer" onclick="openMapDetail('llm')">大模型</span></strong><br>
     <strong>2.</strong> 理解了<span class="term" style="cursor:pointer" onclick="openMapDetail('llm')">大模型</span> → 才能理解它为什么会有<strong><span class="term" style="cursor:pointer;color:#ef4444" onclick="openMapDetail('llm')">幻觉</span></strong>（胡说八道）<br>
@@ -630,7 +636,7 @@ function closeMapDetail(){
 </div>
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('home')">← 返回首页</button>
     <button class="btn btn-blue" onclick="goSection('ch2')">下一章：AI前世今生 →</button>
 </div>
@@ -638,8 +644,7 @@ function closeMapDetail(){
 
 <!-- ==================== SECTION: CH2 AI前世今生 ==================== -->
 <div class="container section" id="sec-ch2">
-<h2 style="margin-bottom:8px">📜 第二章：AI 前世今生</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">不需要深入，但要知道来龙去脉。这样听到术语不会懵。</p>
+<div class="section-head"><h2>📜 第二章：AI 前世今生</h2><p>不需要深入，但要知道来龙去脉。这样听到术语不会懵。</p></div>
 
 <div class="card">
 <div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🕰️</span><span>1950s-2010s：传统AI —— 规则和统计的时代</span><span class="arrow">▶</span></div>
@@ -700,7 +705,7 @@ function closeMapDetail(){
 </div></div>
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('ch1')">← 上一章</button>
     <button class="btn btn-blue" onclick="goSection('ch3')">下一章：核心名词渐进式解读 →</button>
 </div>
@@ -708,8 +713,7 @@ function closeMapDetail(){
 
 <!-- ==================== SECTION: CH3 核心名词 ==================== -->
 <div class="container section" id="sec-ch3">
-<h2 style="margin-bottom:8px">📖 第三章：核心名词渐进式解读</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">按依赖关系排列，先学前面的才能理解后面的。每个名词：一句话解释 + 会议中的应用 + 类比</p>
+<div class="section-head"><h2>📖 第三章：核心名词渐进式解读</h2><p>按依赖关系排列，先学前面的才能理解后面的。每个名词：一句话解释 + 会议中的应用 + 类比</p></div>
 
 <div class="card">
 
@@ -883,7 +887,7 @@ function closeMapDetail(){
 
 </div><!-- end card -->
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('ch2')">← 上一章</button>
     <button class="btn btn-blue" onclick="goSection('ch4')">下一章：开发入门 →</button>
 </div>
@@ -891,8 +895,7 @@ function closeMapDetail(){
 
 <!-- ==================== SECTION: CH4 开发入门 ==================== -->
 <div class="container section" id="sec-ch4">
-<h2 style="margin-bottom:8px">💻 第四章：开发入门 —— 从打开终端开始</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">你不需要会写代码，但必须能操作服务器、看懂命令、跟工程师对话。</p>
+<div class="section-head"><h2>💻 第四章：开发入门</h2><p>从打开终端开始。你不需要会写代码，但必须能操作服务器、看懂命令、跟工程师对话。</p></div>
 
 <div class="card">
 
@@ -1011,7 +1014,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('ch3')">← 上一章</button>
     <button class="btn btn-blue" onclick="goSection('ch5')">下一章：大模型部署实战 →</button>
 </div>
@@ -1019,11 +1022,10 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 
 <!-- ==================== SECTION: CH5 大模型部署 ==================== -->
 <div class="container section" id="sec-ch5">
-<h2 style="margin-bottom:8px">🚀 第五章：大模型部署实战</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">了解部署全流程，工程师来做的时候你知道在干什么。</p>
+<div class="section-head"><h2>🚀 第五章：大模型部署实战</h2><p>了解部署全流程，工程师来做的时候你知道在干什么。</p></div>
 
 <div class="card">
-<h3 style="font-size:14px;margin-bottom:16px">📦 部署全流程（工程师做的事，你只需了解）</h3>
+<h3 >📦 部署全流程（工程师做的事，你只需了解）</h3>
 <div class="flow" style="font-size:11px;flex-wrap:wrap">
     <div class="flow-node"><div class="fi">1️⃣</div>确认服务器<br>配置</div>
     <div class="flow-arrow">→</div>
@@ -1091,7 +1093,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 </div></div>
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('ch4')">← 上一章</button>
     <button class="btn btn-blue" onclick="goSection('ch6')">下一章：智能体开发 →</button>
 </div>
@@ -1099,8 +1101,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 
 <!-- ==================== SECTION: CH6 智能体开发 ==================== -->
 <div class="container section" id="sec-ch6">
-<h2 style="margin-bottom:8px">🤖 第六章：智能体开发</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">用Dify做智能体，从工作流到超级智能体。</p>
+<div class="section-head"><h2>🤖 第六章：智能体开发</h2><p>用Dify做智能体，从工作流到超级智能体。</p></div>
 
 <div class="card">
 <div class="expandable"><div class="expand-header" onclick="toggleExpand(this)"><span class="icon">🔧</span><span>用 Dify 创建智能体的步骤</span><span class="arrow">▶</span></div>
@@ -1163,7 +1164,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 </div></div>
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('ch5')">← 上一章</button>
     <button class="btn btn-blue" onclick="goSection('ch7')">下一章：你的实战任务 →</button>
 </div>
@@ -1171,11 +1172,10 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 
 <!-- ==================== SECTION: CH7 实战任务 ==================== -->
 <div class="container section" id="sec-ch7">
-<h2 style="margin-bottom:8px">🎯 第七章：你的实战任务</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">基于会议录音整理出的所有具体任务，按优先级排列。</p>
+<div class="section-head"><h2>🎯 第七章：你的实战任务</h2><p>基于会议录音整理出的所有具体任务，按优先级排列。</p></div>
 
 <div class="card">
-<h3 style="font-size:14px;margin-bottom:16px;color:var(--red)">🔴 紧急任务（工程师来之前必须完成）</h3>
+<h3 >🔴 紧急任务（工程师来之前必须完成）</h3>
 <div id="urgentChecks">
     <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集行政案件卷宗2份（不同类型）作为测试数据</span></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">收集刑事案件卷宗2份（不同罪名）作为测试数据</span></div>
@@ -1188,7 +1188,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 </div>
 
 <div class="card">
-<h3 style="font-size:14px;margin-bottom:16px;color:var(--orange)">🟡 工程师到场后的配合任务</h3>
+<h3 >🟡 工程师到场后的配合任务</h3>
 <div id="deployChecks">
     <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">全程陪同工程师部署系统</span></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">记录每一步部署操作（截图+笔记）</span></div>
@@ -1203,7 +1203,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 </div>
 
 <div class="card">
-<h3 style="font-size:14px;margin-bottom:16px;color:var(--green)">🟢 系统部署完成后的长期任务</h3>
+<h3 >🟢 系统部署完成后的长期任务</h3>
 <div id="longtermChecks">
     <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">定义卷宗查错检查规则（提示词迭代）</span></div>
     <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-text">持续更新知识库（法规、案例）</span></div>
@@ -1213,7 +1213,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 </div>
 </div>
 
-<div style="display:flex;justify-content:space-between;margin-top:24px">
+<div class="chapter-nav">
     <button class="btn btn-ghost" onclick="goSection('ch6')">← 上一章</button>
     <button class="btn btn-blue" onclick="goSection('ch8')">下一章：速查手册 →</button>
 </div>
@@ -1221,8 +1221,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 
 <!-- ==================== SECTION: CH8 速查手册 ==================== -->
 <div class="container section" id="sec-ch8">
-<h2 style="margin-bottom:8px">🔍 第八章：A-Z 速查手册</h2>
-<p style="color:var(--muted);font-size:13px;margin-bottom:24px">听到任何词，按 Ctrl+F 搜索</p>
+<div class="section-head"><h2>🔍 第八章：A-Z 速查手册</h2><p>听到任何词，按 Ctrl+F 搜索</p></div>
 
 <div class="card">
 <p style="color:var(--dim);font-size:12px;margin-bottom:12px">💡 点击任意术语可查看详细解释、案例、来源</p>
@@ -1237,7 +1236,7 @@ http://10.0.1.100:19530  <span class="output"># Milvus向量数据库</span></pr
 <div style="text-align:center;margin-top:32px;padding:32px">
     <p style="color:var(--muted);font-size:14px;margin-bottom:12px">🎉 恭喜！你已经完成全部学习内容</p>
     <p style="color:var(--dim);font-size:12px;margin-bottom:16px">记住：不需要会写代码，你的核心能力是<strong style="color:var(--text)">懂业务 + 懂概念 + 能跟工程师对话</strong></p>
-    <button class="btn btn-blue" data-target="home">回到首页</button>
+    <button class="btn btn-blue" onclick="goSection('home')">回到首页</button>
 </div>
 </div>
 
